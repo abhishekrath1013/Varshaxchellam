@@ -39,7 +39,10 @@ const MAX_PHOTO_BYTES = 12 * 1024 * 1024;
 const PHOTO_TYPES = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/heic': 'heic', 'image/heif': 'heif', 'image/gif': 'gif' };
 const EVENTS = ['Reception (31 Oct)', 'Muhurtham (1 Nov)'];
 
-function doGet() {
+function doGet(e) {
+  if (e && e.parameter && e.parameter.action === 'settings') {   // public: the site reads the live link from here
+    return out_({ ok: true, youtubeUrl: PropertiesService.getScriptProperties().getProperty('YOUTUBE_URL') || '' });
+  }
   return out_({ ok: true, service: 'wedding-backend' });
 }
 
@@ -52,6 +55,7 @@ function doPost(e) {
       case 'photo': return out_(savePhoto_(body));
       case 'list':  return out_(listRsvps_(body));
       case 'clear': return out_(clearRsvps_(body));
+      case 'setYoutube': return out_(setYoutube_(body));
       default:      return out_({ ok: false, error: 'Unknown action' });
     }
   } catch (err) {
@@ -146,6 +150,7 @@ function listRsvps_(b) {
     ok: true,
     headers: HEADERS,
     rows: rows,
+    youtubeUrl: PropertiesService.getScriptProperties().getProperty('YOUTUBE_URL') || '',
     sheetUrl: 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/edit',
     folderUrl: 'https://drive.google.com/drive/folders/' + DRIVE_FOLDER_ID
   };
@@ -165,6 +170,19 @@ function clearRsvps_(b) {
   } finally {
     lock.releaseLock();
   }
+}
+
+/* ---------- Admin: set the YouTube live link shown on the site ---------- */
+function setYoutube_(b) {
+  const bad = authError_(b);
+  if (bad) return bad;
+  const url = clean_(b.url, 300);
+  if (url && !/^https:\/\/(www\.|m\.)?(youtube\.com|youtube-nocookie\.com|youtu\.be)\//i.test(url)) {
+    return { ok: false, error: 'Please paste a youtube.com or youtu.be link.' };
+  }
+  const props = PropertiesService.getScriptProperties();
+  if (url) props.setProperty('YOUTUBE_URL', url); else props.deleteProperty('YOUTUBE_URL');
+  return { ok: true, youtubeUrl: url };
 }
 
 /* ---------- helpers ---------- */

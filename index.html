@@ -1962,10 +1962,16 @@ const msgBusy=()=>T('Sorry, something went wrong. Please try again in a moment.'
 
 /* ---- live stream ---- */
 function initLive(){
-  const url=CFG.YOUTUBE_URL||'', m=url.match(/(?:[?&]v=|youtu\.be\/|\/live\/|\/embed\/)([A-Za-z0-9_-]{11})/), id=m?m[1]:'';
-  const real=!!id&&!/^X+$/i.test(id);
-  if(url) $('#ytLink').href=url;
-  if(real) $('#liveNote').hidden=true;
+  let id='', real=false;
+  const setStream=url=>{
+    const m=(url||'').match(/(?:[?&]v=|youtu\.be\/|\/live\/|\/embed\/)([A-Za-z0-9_-]{11})/);
+    id=m?m[1]:''; real=!!id&&!/^X+$/i.test(id);
+    if(url) $('#ytLink').href=url;
+    $('#liveNote').hidden=real;
+  };
+  setStream(CFG.YOUTUBE_URL||'');
+  /* the admin page can set the live link; it overrides the placeholder in config.js */
+  if(CFG.SCRIPT_URL) fetch(CFG.SCRIPT_URL+'?action=settings').then(r=>r.json()).then(d=>{ if(d&&d.ok&&d.youtubeUrl) setStream(d.youtubeUrl); }).catch(()=>{});
   $('#playBtn').addEventListener('click',()=>{
     if(!real){ toast(T('The live link will be shared soon','நேரலை இணைப்பு விரைவில் பகிரப்படும்')); return; }
     const f=document.createElement('iframe');
