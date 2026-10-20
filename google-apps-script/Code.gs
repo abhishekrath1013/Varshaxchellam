@@ -31,7 +31,7 @@
 
 const SHEET_ID = '1nsryr4OJdMiHY2SsBhxc5V-ci9dTbxoEPM13In_YJRk';
 const DRIVE_FOLDER_ID = '1goi613i4MlBu9TyKvfgKymkrNwAsyYCi';
-const RSVP_TAB = 'RSVP';
+const RSVP_TAB = '';   // leave empty to use the FIRST tab of the sheet, or put a tab name here
 
 const HEADERS = ['Timestamp (IST)', 'Name', 'Phone', 'Email', 'Attending', 'Events', 'Guests', 'Message', 'Language'];
 const TEXT_COLS = [1, 2, 3, 4, 5, 6, 8, 9];       // 1-based columns stored as plain text (keeps +91 and stops formulas)
@@ -51,6 +51,7 @@ function doPost(e) {
       case 'rsvp':  return out_(saveRsvp_(body));
       case 'photo': return out_(savePhoto_(body));
       case 'list':  return out_(listRsvps_(body));
+      case 'clear': return out_(clearRsvps_(body));
       default:      return out_({ ok: false, error: 'Unknown action' });
     }
   } catch (err) {
@@ -90,7 +91,7 @@ function saveRsvp_(b) {
 
 function rsvpSheet_() {
   const ss = SpreadsheetApp.openById(SHEET_ID);
-  let sheet = ss.getSheetByName(RSVP_TAB) || ss.insertSheet(RSVP_TAB);
+  const sheet = RSVP_TAB ? (ss.getSheetByName(RSVP_TAB) || ss.insertSheet(RSVP_TAB)) : ss.getSheets()[0];
   if (sheet.getLastRow() === 0) {
     sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold').setBackground('#F6E3BC');
     sheet.setFrozenRows(1);
@@ -119,7 +120,7 @@ function savePhoto_(b) {
 }
 
 /* ---------- Admin: list RSVPs ---------- */
-function listRsvps_(b) {
+function authError_(b) {
   const cache = CacheService.getScriptCache();
   const fails = parseInt(cache.get('admin_fails') || '0', 10);
   if (fails >= 10) return { ok: false, error: 'Too many attempts. Try again in 10 minutes.' };
@@ -131,6 +132,12 @@ function listRsvps_(b) {
     return { ok: false, error: 'Wrong password' };
   }
   cache.remove('admin_fails');
+  return null;
+}
+
+function listRsvps_(b) {
+  const bad = authError_(b);
+  if (bad) return bad;
 
   const sheet = rsvpSheet_();
   const rows = sheet.getLastRow() > 1
@@ -142,6 +149,22 @@ function listRsvps_(b) {
     sheetUrl: 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/edit',
     folderUrl: 'https://drive.google.com/drive/folders/' + DRIVE_FOLDER_ID
   };
+}
+
+/* ---------- Admin: delete every RSVP row (the header row stays) ---------- */
+function clearRsvps_(b) {
+  const bad = authError_(b);
+  if (bad) return bad;
+  const lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    const sheet = rsvpSheet_();
+    const n = sheet.getLastRow() - 1;
+    if (n > 0) sheet.deleteRows(2, n);
+    return { ok: true, deleted: Math.max(n, 0) };
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 /* ---------- helpers ---------- */

@@ -16,6 +16,15 @@ h1{font-size:clamp(1.7rem,4vw,2.4rem);color:var(--red);line-height:1.2}
 .btn:hover{background:var(--red);color:var(--ivory)}
 .btn.solid{background:linear-gradient(180deg,#A8242C,#7B1118);color:#FFF3D6;border-color:transparent}
 .btn:disabled{opacity:.55;cursor:wait}
+.btn.danger{padding:.35em .9em;font-size:.82rem;border-color:#B3261E;color:#B3261E}
+.btn.danger:hover{background:#B3261E;color:#fff}
+.btn.danger.solid{background:#B3261E;color:#fff;border-color:transparent;font-size:.95rem;padding:.6em 1.3em}
+.modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(30,8,12,.6)}
+.modal.on{display:flex}
+.modal .card{max-width:440px;padding:28px}
+.modal h2{color:#B3261E;font-size:1.4rem;margin-bottom:.5rem}
+.modal p{color:var(--muted);margin-bottom:1.2rem}
+.modal .acts{display:flex;gap:.6rem;justify-content:flex-end;flex-wrap:wrap}
 :focus-visible{outline:2.5px solid #F39A1E;outline-offset:3px}
 .card{background:#FFFBF1;border:1px solid var(--line);border-radius:12px;box-shadow:0 24px 50px -30px rgba(90,15,27,.45)}
 #gate{max-width:440px;margin:14vh auto 0;padding:34px 30px;text-align:center}
@@ -71,6 +80,7 @@ tr:hover td{background:rgba(243,154,30,.08)}
         <a class="btn" id="sheetLink" target="_blank" rel="noopener" href="#">Open Google Sheet</a>
         <a class="btn" id="folderLink" target="_blank" rel="noopener" href="#">Open photo folder</a>
         <button class="btn" id="logout" type="button">Lock</button>
+        <button class="btn danger" id="clearBtn" type="button">Clear all</button>
       </div>
     </div>
 
@@ -88,6 +98,17 @@ tr:hover td{background:rgba(243,154,30,.08)}
       <span class="count" id="count"></span>
     </div>
     <div class="card tw"><table id="tbl"><thead></thead><tbody></tbody></table></div>
+  </div>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="card">
+    <h2 id="mTitle">Delete all RSVPs?</h2>
+    <p id="mText"></p>
+    <div class="acts">
+      <button class="btn" id="mCancel" type="button">Cancel</button>
+      <button class="btn danger solid" id="mYes" type="button">Yes, delete everything</button>
+    </div>
   </div>
 </div>
 
@@ -123,6 +144,19 @@ $('#loginForm').addEventListener('submit',function(e){
 });
 $('#refresh').addEventListener('click',function(){ var b=this; b.disabled=true; load().catch(function(e){alert(e.message);}).then(function(){b.disabled=false;}); });
 $('#logout').addEventListener('click',lock);
+var modal=$('#modal');
+$('#clearBtn').addEventListener('click',function(){
+  $('#mText').textContent='This permanently deletes all '+rows.length+' response'+(rows.length===1?'':'s')+' from the Google Sheet. It cannot be undone. Download the Excel file first if you may need it.';
+  modal.classList.add('on'); $('#mCancel').focus();
+});
+$('#mCancel').addEventListener('click',function(){ modal.classList.remove('on'); });
+modal.addEventListener('click',function(e){ if(e.target===modal) modal.classList.remove('on'); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') modal.classList.remove('on'); });
+$('#mYes').addEventListener('click',function(){
+  var b=this; b.disabled=true;
+  api({action:'clear',key:key}).then(function(d){ if(!d.ok) throw new Error(d.error||'Failed'); modal.classList.remove('on'); return load(); })
+    .catch(function(e){ alert(e.message); }).then(function(){ b.disabled=false; });
+});
 $('#q').addEventListener('input',render);
 
 var COL={name:1,phone:2,att:4,events:5,guests:6};
