@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>RSVP Admin | Varsha &amp; Chellam</title>
+<style>
+:root{--ivory:#FFF6E2;--sandal:#F6E3BC;--red:#8A1620;--rose:#5A0F1B;--gold:#B8861F;--text:#3A1015;--muted:#6A3B34;--line:rgba(138,22,32,.22)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ivory);color:var(--text);font:17px/1.6 Georgia,'Times New Roman',serif;min-height:100vh}
+.wrap{width:min(1180px,94vw);margin:0 auto;padding:32px 0 60px}
+h1{font-size:clamp(1.7rem,4vw,2.4rem);color:var(--red);line-height:1.2}
+.sub{color:var(--muted);margin-top:.2rem}
+.btn{display:inline-flex;align-items:center;gap:.5em;padding:.6em 1.3em;border-radius:999px;border:1.5px solid var(--red);background:transparent;color:var(--red);font:inherit;font-size:.95rem;font-weight:600;cursor:pointer;text-decoration:none;transition:background .2s,color .2s}
+.btn:hover{background:var(--red);color:var(--ivory)}
+.btn.solid{background:linear-gradient(180deg,#A8242C,#7B1118);color:#FFF3D6;border-color:transparent}
+.btn:disabled{opacity:.55;cursor:wait}
+:focus-visible{outline:2.5px solid #F39A1E;outline-offset:3px}
+.card{background:#FFFBF1;border:1px solid var(--line);border-radius:12px;box-shadow:0 24px 50px -30px rgba(90,15,27,.45)}
+#gate{max-width:440px;margin:14vh auto 0;padding:34px 30px;text-align:center}
+#gate p{color:var(--muted);margin:.5rem 0 1.4rem}
+input[type=password],input[type=search]{width:100%;padding:.75em 1.1em;border-radius:999px;border:1.5px solid var(--red);background:#fff;font:inherit;color:var(--text)}
+input:focus{outline:none;border-color:#F39A1E;box-shadow:0 0 0 4px rgba(243,154,30,.28)}
+#gate .btn{margin-top:1rem;width:100%;justify-content:center}
+.err{color:#B3261E;margin-top:.8rem;min-height:1.5em;font-size:.95rem}
+#app{display:none}
+.top{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:flex-end;margin-bottom:22px}
+.acts{display:flex;flex-wrap:wrap;gap:.6rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
+.stat{padding:16px 18px}
+.stat b{display:block;font-size:2rem;color:var(--red);line-height:1.1}
+.stat span{color:var(--muted);font-size:.92rem}
+.bar{display:flex;gap:.8rem;margin-bottom:14px;align-items:center;flex-wrap:wrap}
+.bar input{max-width:340px}
+.count{color:var(--muted);font-size:.95rem}
+.tw{overflow:auto;max-height:68vh}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{padding:.6em .9em;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{position:sticky;top:0;background:var(--sandal);color:var(--rose);white-space:nowrap;cursor:pointer;user-select:none;z-index:1}
+td.msg{min-width:220px;max-width:380px}
+tr:hover td{background:rgba(243,154,30,.08)}
+.yes{color:#1f6b2c;font-weight:700}.no{color:#B3261E;font-weight:700}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="gate" class="card">
+    <h1>RSVP Admin</h1>
+    <p>Varsha &amp; Chellam Srinivasan wedding</p>
+    <form id="loginForm" autocomplete="off">
+      <label for="pw" style="position:absolute;left:-9999px">Admin password</label>
+      <input id="pw" type="password" placeholder="Admin password" required>
+      <button class="btn solid" id="loginBtn" type="submit">View responses</button>
+      <div class="err" id="loginErr" role="alert"></div>
+    </form>
+  </div>
+
+  <div id="app">
+    <div class="top">
+      <div>
+        <h1>RSVP responses</h1>
+        <p class="sub">Varsha &amp; Chellam Srinivasan · live from your Google Sheet</p>
+      </div>
+      <div class="acts">
+        <button class="btn solid" id="dlXlsx" type="button">Download Excel (.xlsx)</button>
+        <button class="btn" id="dlCsv" type="button">Download CSV</button>
+        <button class="btn" id="refresh" type="button">Refresh</button>
+        <a class="btn" id="sheetLink" target="_blank" rel="noopener" href="#">Open Google Sheet</a>
+        <a class="btn" id="folderLink" target="_blank" rel="noopener" href="#">Open photo folder</a>
+        <button class="btn" id="logout" type="button">Lock</button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="card stat"><b id="sResp">0</b><span>Responses</span></div>
+      <div class="card stat"><b id="sYes">0</b><span>Attending (responses)</span></div>
+      <div class="card stat"><b id="sGuests">0</b><span>Total guests attending</span></div>
+      <div class="card stat"><b id="sRec">0</b><span>Reception guests</span></div>
+      <div class="card stat"><b id="sMuh">0</b><span>Muhurtham guests</span></div>
+      <div class="card stat"><b id="sNo">0</b><span>Declined</span></div>
+    </div>
+
+    <div class="bar">
+      <input id="q" type="search" placeholder="Search name, phone, message…" aria-label="Search">
+      <span class="count" id="count"></span>
+    </div>
+    <div class="card tw"><table id="tbl"><thead></thead><tbody></tbody></table></div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+<script>
+(function(){
+'use strict';
+var $=function(s){return document.querySelector(s)};
+var URL_=(window.WEDDING_CONFIG||{}).SCRIPT_URL;
+var headers=[], rows=[], sortCol=0, sortDir=-1, key='';
+
+function api(payload){
+  if(!URL_) return Promise.reject(new Error('SCRIPT_URL is empty in config.js'));
+  return fetch(URL_,{method:'POST',body:JSON.stringify(payload)}).then(function(r){return r.json();});
+}
+function load(){
+  return api({action:'list',key:key}).then(function(d){
+    if(!d.ok) throw new Error(d.error||'Could not load');
+    headers=d.headers; rows=d.rows;
+    $('#sheetLink').href=d.sheetUrl; $('#folderLink').href=d.folderUrl;
+    render();
+  });
+}
+function unlock(){ $('#gate').style.display='none'; $('#app').style.display='block'; }
+function lock(){ try{sessionStorage.removeItem('rsvpKey');}catch(e){} location.reload(); }
+
+$('#loginForm').addEventListener('submit',function(e){
+  e.preventDefault(); key=$('#pw').value; var b=$('#loginBtn'); b.disabled=true; $('#loginErr').textContent='';
+  load().then(function(){ try{sessionStorage.setItem('rsvpKey',key);}catch(e){} unlock(); })
+    .catch(function(err){ $('#loginErr').textContent=err.message==='Failed to fetch'?'Could not reach the server. Check SCRIPT_URL in config.js.':err.message; })
+    .then(function(){ b.disabled=false; });
+});
+$('#refresh').addEventListener('click',function(){ var b=this; b.disabled=true; load().catch(function(e){alert(e.message);}).then(function(){b.disabled=false;}); });
+$('#logout').addEventListener('click',lock);
+$('#q').addEventListener('input',render);
+
+var COL={name:1,phone:2,att:4,events:5,guests:6};
+function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+
+function render(){
+  var q=$('#q').value.trim().toLowerCase();
+  var list=rows.filter(function(r){ return !q||r.join(' ').toLowerCase().indexOf(q)>-1; });
+  list.sort(function(a,b){
+    var x=a[sortCol],y=b[sortCol];
+    if(sortCol===COL.guests){x=+x||0;y=+y||0;}
+    return (x>y?1:x<y?-1:0)*sortDir;
+  });
+  $('#tbl thead').innerHTML='<tr>'+headers.map(function(h,i){return '<th data-i="'+i+'">'+esc(h)+(i===sortCol?(sortDir>0?' ▲':' ▼'):'')+'</th>';}).join('')+'</tr>';
+  $('#tbl tbody').innerHTML=list.length?list.map(function(r){
+    return '<tr>'+r.map(function(c,i){
+      var cls=i===COL.att?(c==='Yes'?' class="yes"':' class="no"'):(i===7?' class="msg"':'');
+      return '<td'+cls+'>'+esc(c)+'</td>';
+    }).join('')+'</tr>';
+  }).join(''):'<tr><td colspan="'+headers.length+'" class="empty">No responses yet.</td></tr>';
+  $('#count').textContent=list.length+' of '+rows.length+' shown';
+  Array.prototype.forEach.call(document.querySelectorAll('#tbl th'),function(th){
+    th.addEventListener('click',function(){ var i=+th.dataset.i; if(i===sortCol) sortDir=-sortDir; else {sortCol=i;sortDir=1;} render(); });
+  });
+  var yes=rows.filter(function(r){return r[COL.att]==='Yes';});
+  var sum=function(a){return a.reduce(function(t,r){return t+(+r[COL.guests]||0);},0);};
+  $('#sResp').textContent=rows.length; $('#sYes').textContent=yes.length; $('#sNo').textContent=rows.length-yes.length;
+  $('#sGuests').textContent=sum(yes);
+  $('#sRec').textContent=sum(yes.filter(function(r){return r[COL.events].indexOf('Reception')>-1;}));
+  $('#sMuh').textContent=sum(yes.filter(function(r){return r[COL.events].indexOf('Muhurtham')>-1;}));
+}
+
+function stamp(){ return new Date().toISOString().slice(0,10); }
+function save(blob,name){ var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500); }
+function csv(){
+  var q=function(v){ v=String(v); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; };
+  var txt=[headers].concat(rows).map(function(r){return r.map(q).join(',');}).join('\r\n');
+  save(new Blob(['﻿'+txt],{type:'text/csv;charset=utf-8'}),'wedding-rsvps-'+stamp()+'.csv');
+}
+$('#dlCsv').addEventListener('click',csv);
+$('#dlXlsx').addEventListener('click',function(){
+  if(!window.XLSX){ alert('The Excel library could not load (offline?). Downloading CSV instead, which opens in Excel too.'); return csv(); }
+  var data=[headers].concat(rows.map(function(r){return r.map(function(c,i){return i===COL.guests&&c!==''&&!isNaN(c)?+c:c;});}));
+  var ws=XLSX.utils.aoa_to_sheet(data);
+  ws['!cols']=[{wch:20},{wch:26},{wch:16},{wch:28},{wch:10},{wch:34},{wch:8},{wch:50},{wch:10}];
+  var wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,'RSVP');
+  XLSX.writeFile(wb,'wedding-rsvps-'+stamp()+'.xlsx');
+});
+
+try{ var k=sessionStorage.getItem('rsvpKey'); if(k){ key=k; load().then(unlock).catch(function(){ try{sessionStorage.removeItem('rsvpKey');}catch(e){} }); } }catch(e){}
+})();
+</script>
+</body>
+</html>
