@@ -348,6 +348,8 @@ footer{position:relative;padding:90px 0 100px;text-align:center;background:var(-
 .mono .c{display:inline-block}
 .mono em{font-style:normal;color:#F39A1E;padding:0 .15em}
 footer .compl{margin:1.2rem 0 .4rem;font-size:1.3rem}
+footer .credit{font-size:.82rem;color:var(--fg2);opacity:.8;max-width:42em;margin:1.4rem auto 0}
+footer .credit a{color:inherit}
 footer .print{font-size:.98rem;color:var(--fg2);margin-top:1.8rem}
 .share{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;margin:2rem 0 0}
 .toast{position:fixed;left:50%;bottom:28px;z-index:2000;transform:translate(-50%,24px);opacity:0;padding:.7em 1.5em;border-radius:99px;background:#8A1620;color:#FFF3D6;font-weight:600;font-size:1rem;pointer-events:none;transition:opacity .3s,transform .3s;box-shadow:0 14px 34px -10px rgba(0,0,0,.5)}
@@ -472,8 +474,11 @@ body[data-lang="ta"] .pcap b{font-family:var(--f-ta-d)}
 .up.fail .st{background:rgba(179,38,30,.7)}.up.fail .st::after{content:"!"}
 .up .rm{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:0;background:rgba(18,6,10,.75);color:#fff;font-size:1rem;line-height:1;cursor:pointer;z-index:2}
 .up.busy .rm,.up.ok .rm{display:none}
-.pbar{height:8px;border-radius:6px;background:rgba(138,22,32,.14);overflow:hidden;margin:16px 0 6px;display:none}
-.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#F39A1E,#A8242C);transition:width .4s}
+.pbar{height:12px;border-radius:8px;background:rgba(138,22,32,.16);overflow:hidden;margin:18px 0 8px;display:none}
+.pbar i{display:block;height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,#F39A1E,#A8242C);transition:width .25s linear}
+.uptxt{font-weight:600}
+.up .pb{position:absolute;left:0;bottom:0;height:5px;width:0;background:#F39A1E;z-index:1;transition:width .25s linear}
+.up.ok .pb{background:#3aa655}
 .uptxt{min-height:1.5em;color:var(--fg2);font-size:1rem;margin-bottom:1rem}
 .uptxt.err{color:#B3261E}
 .up-acts{display:flex;gap:.8rem;flex-wrap:wrap}
@@ -543,6 +548,12 @@ body[data-lang="ta"] .pcap b{font-family:var(--f-ta-d)}
   background:radial-gradient(circle at 35% 30%,#fff0b8,#c9a14a 50%,#6d4a10);box-shadow:0 3px 6px rgba(0,0,0,.6)}
 .door.l .ring{right:clamp(10px,2vw,26px)}.door.l .boss{right:clamp(24px,3.6vw,46px)}
 .door.r .ring{left:clamp(10px,2vw,26px)}.door.r .boss{left:clamp(24px,3.6vw,46px)}
+.gate-name{pointer-events:auto;margin-top:clamp(18px,3.4vh,30px);width:min(88vw,360px);text-align:center}
+.gate-name label{display:inline-block;margin-bottom:.5rem;padding:.2em 1em;border-radius:99px;font-size:.98rem;color:var(--gold-hi);background:rgba(18,6,10,.82)}
+.gate-name input{width:100%;padding:.7em 1.2em;border-radius:999px;border:1.5px solid var(--gold);background:rgba(18,6,10,.82);color:#fff0c2;font:inherit;font-size:1.1rem;text-align:center;transition:box-shadow .3s,border-color .3s}
+.gate-name input:focus{outline:none;border-color:#F39A1E;box-shadow:0 0 0 4px rgba(243,154,30,.35)}
+.gate-name input::placeholder{color:rgba(244,220,156,.6)}
+@media(max-height:560px){.gate-name label{display:none}}
 .gate-ui{position:absolute;inset:0;z-index:7;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;transition:opacity .7s ease}
 #gate.open .gate-ui{opacity:0}
 .plaque{position:absolute;top:5%;left:50%;transform:translateX(-50%);width:max-content;max-width:90vw;text-align:center;padding:.8rem 2rem 1rem;
@@ -715,6 +726,10 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
       <button class="seal" id="openBtn" type="button">
         <div><b class="en">Open</b><b class="ta">திற</b></div>
       </button>
+      <div class="gate-name">
+        <label for="guest"><span class="en">Your name, for your personal invitation</span><span class="ta">தனிப்பட்ட அழைப்பிற்கு உங்கள் பெயர்</span></label>
+        <input id="guest" type="text" autocomplete="name" maxlength="60" placeholder="Your name" data-ph-en="Your name" data-ph-ta="உங்கள் பெயர்">
+      </div>
     </div>
     <div class="gate-foot">
       <div class="langsw" role="group" aria-label="Language">
@@ -818,21 +833,21 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
       <svg class="corner bl"><use href="#corner"/></svg><svg class="corner br"><use href="#corner"/></svg>
       <div class="sloka en">
         <p class="lead">Sri Ramajayam</p>
-        <p>Sri Lakshminrusimha Parabrahmane Namah. Sri Bhoomidevi Sametha Sri Srinivasa (Sri Oppiliappan) Parabrahmane Namah.</p>
+        <p>Sri Lakshmi Nrusimha Parabrahmane Namah. Sri Bhoomidevi Sametha Sri Srinivasa (Sri Oppiliappan) Parabrahmane Namah.</p>
         <p>Sri Vakulabhushana Mahagurave Namah.</p>
         <svg class="sep" viewBox="0 0 320 34" aria-hidden="true"><use href="#lotus"/></svg>
         <p>Srimate Ramanujaya Namah. Srimate Nigamanta Mahadesikaya Namah. Srimad Adivan Satakopa Yatindra Mahadesikaya Namah.</p>
-        <p>Srimate Sri Lakshminrusimha Divyapaduka Sevaka Srivan Satakopa Sri Narayana Yatindra Mahadesikaya Namah.</p>
+        <p>Srimate Sri Lakshmi Nrusimha Divya Paduka Sevaka Srivan Satakopa Sri Narayana Yatindra Mahadesikaya Namah.</p>
         <p>Srimate Srivan Satakopa Sri Ranganatha Yatindra Mahadesikaya Namah.</p>
       </div>
       <div class="sloka ta">
         <p class="lead">ஸ்ரீ: &nbsp; ஸ்ரீராமஜெயம்</p>
-        <p>ஸ்ரீ லக்ஷ்மிந்ருஸிம்ஹ பரப்ரஹ்மணே நம: ஸ்ரீ பூமிதேவீ ஸமேத ஸ்ரீ ஸ்ரீநிவாஸ (ஸ்ரீ ஒப்பிலியப்பன்) பரப்ரஹ்மணே நம:</p>
+        <p>ஸ்ரீ லக்ஷ்மீ ந்ருஸிம்ஹ பரப்ரஹ்மணே நம: ஸ்ரீ பூமிதேவீ ஸமேத ஸ்ரீ ஸ்ரீநிவாஸ (ஸ்ரீ ஒப்பிலியப்பன்) பரப்ரஹ்மணே நம:</p>
         <p>ஸ்ரீ வகுளபூஷண மஹாகுரவே நம:</p>
         <svg class="sep" viewBox="0 0 320 34" aria-hidden="true"><use href="#lotus"/></svg>
-        <p>ஸ்ரீமதே ராமாநுஜாய நம: ஸ்ரீமதே நிகமாந்த மஹாதேசிகாய நம: ஸ்ரீமதாதிவண்சடகோப யதீந்த்ர மஹாதேசிகாய நம:</p>
-        <p>ஸ்ரீமதே ஸ்ரீ லக்ஷ்மிந்ருஸிம்ஹ திவ்யபாதுகா ஸேவக ஸ்ரீவண்சடகோப ஸ்ரீ நாராயண யதீந்த்ர மஹாதேசிகாய நம:</p>
-        <p>ஸ்ரீமதே ஸ்ரீவண்சடகோப ஸ்ரீ ரங்கநாத யதீந்த்ர மஹாதேசிகாய நம:</p>
+        <p>ஸ்ரீமதே ராமாநுஜாய நம: ஸ்ரீமதே நிகமாந்த மஹாதேசிகாய நம: ஸ்ரீமத் ஆதிவண் சடகோப யதீந்த்ர மஹாதேசிகாய நம:</p>
+        <p>ஸ்ரீமதே ஸ்ரீ லக்ஷ்மீ ந்ருஸிம்ஹ திவ்ய பாதுகா ஸேவக ஸ்ரீவண் சடகோப ஸ்ரீ நாராயண யதீந்த்ர மஹாதேசிகாய நம:</p>
+        <p>ஸ்ரீமதே ஸ்ரீவண் சடகோப ஸ்ரீ ரங்கநாத யதீந்த்ர மஹாதேசிகாய நம:</p>
       </div>
     </div>
   </div>
@@ -846,12 +861,7 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
     <div class="sec-head">
       <h2 class="sec-title"><span class="en">The Invitation</span><span class="ta">விவாஹ சுபமுஹூர்த்தப் பத்திரிகை</span></h2>
       <svg class="divider" viewBox="0 0 320 34" aria-hidden="true"><use href="#lotus"/></svg>
-      <p class="sec-sub" data-rv><span class="en">A traditional patrika, as sent by the family. Unroll it to read.</span><span class="ta">குடும்பத்தினர் அனுப்பும் பாரம்பரிய பத்திரிகை. விரித்துப் படிக்கவும்.</span></p>
-    </div>
-
-    <div class="guestbox" data-rv>
-      <label for="guest"><span class="en">Whose presence are we requesting? Type a name to personalise your copy.</span><span class="ta">யாருக்கான அழைப்பு? உங்கள் பெயரை இட்டு இந்தப் பத்திரிகையைத் தனிப்படுத்துங்கள்.</span></label>
-      <input id="guest" type="text" autocomplete="name" maxlength="60" placeholder="Your name" data-ph-en="Your name" data-ph-ta="உங்கள் பெயர்">
+      <p class="sec-sub" data-rv><span class="en">A traditional patrika, as sent by the family.</span><span class="ta">குடும்பத்தினர் அனுப்பும் பாரம்பரிய பத்திரிகை.</span></p>
     </div>
 
     <div class="scroll">
@@ -914,7 +924,6 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
       <div class="rod"></div>
     </div>
     <div class="pdf-row"><button class="btn" id="pdfBtn" type="button"><svg><use href="#i-copy"/></svg><span id="pdfTxt" data-en="Download my invitation (PDF)" data-ta="என் அழைப்பிதழைப் பதிவிறக்க (PDF)"></span></button></div>
-    <button class="btn solid unroll-btn" id="unrollBtn" type="button" aria-expanded="false" aria-controls="sheet"><svg><use href="#i-scroll"/></svg><span id="unrollTxt" data-en="Unroll the patrika" data-ta="பத்திரிகையை விரிக்க"></span></button>
   </div>
 </section>
 
@@ -1014,7 +1023,7 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
 <!-- ====== EVENTS ====== -->
 <section class="events has-bg t-sandal" id="events">
   <i class="scal" style="--prev:#5A0F1B"></i>
-  <div class="bgphoto" style="--pos:center 40%;--ov:.82" data-src="https://images.pexels.com/photos/6667281/pexels-photo-6667281.jpeg?auto=compress&cs=tinysrgb&w=1800"></div>
+  <div class="bgphoto" style="--pos:center 40%;--ov:.82" data-src="images/bg-events.jpg"></div>
   <div class="wrap">
     <div class="sec-head">
       <h2 class="sec-title"><span class="en">The Celebrations</span><span class="ta">திருமண நிகழ்ச்சிகள்</span></h2>
@@ -1229,7 +1238,7 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
 <!-- ====== VENUE ====== -->
 <section id="venue" class="has-bg t-ivory">
   <i class="scal" style="--prev:#5A0F1B"></i>
-  <div class="bgphoto" style="--pos:center 30%;--ov:.8" data-src="https://images.pexels.com/photos/35282842/pexels-photo-35282842.jpeg?auto=compress&cs=tinysrgb&w=1800"></div>
+  <div class="bgphoto" style="--pos:center 30%;--ov:.8" data-src="images/bg-venue.jpg"></div>
   <div class="wrap">
     <div class="sec-head">
       <h2 class="sec-title"><span class="en">The Venue</span><span class="ta">திருமண இடம்</span></h2>
@@ -1267,6 +1276,7 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
     <svg class="divider" viewBox="0 0 320 34" aria-hidden="true"><use href="#lotus"/></svg>
     <p class="compl"><span class="en">With best compliments from <b>Friends &amp; Relatives</b></span><span class="ta">நண்பர்கள் மற்றும் உறவினர்களின் வாழ்த்துக்களுடன்</span></p>
     <p style="font-family:var(--f-ta-d);font-weight:600;color:var(--hd)"><span class="en">Sri Ramajayam</span><span class="ta">ஸ்ரீ ராமஜெயம்</span></p>
+    <p class="credit"><span class="en">Background photos of the Parthasarathy Temple, Triplicane: <a href="https://commons.wikimedia.org/wiki/File:Parthasarathy-Temple-Triplicane-Chennai-2.JPG" target="_blank" rel="noopener">Destination8infinity</a> (CC BY-SA 3.0) and <a href="https://commons.wikimedia.org/wiki/File:Parthasarathy_Temple_(244653749).jpeg" target="_blank" rel="noopener">Francisco Anzola</a> (CC BY 3.0), via Wikimedia Commons.</span><span class="ta">திருவல்லிக்கேணி பார்த்தசாரதி கோயில் பின்னணிப் படங்கள்: Destination8infinity (CC BY-SA 3.0), Francisco Anzola (CC BY 3.0), Wikimedia Commons.</span></p>
     <div class="share">
       <a class="btn" id="wa" target="_blank" rel="noopener" href="#"><svg><use href="#i-share"/></svg><span data-en="Share on WhatsApp" data-ta="வாட்ஸ்அப்பில் பகிர"></span></a>
       <button class="btn" type="button" id="copyLink"><svg><use href="#i-copy"/></svg><span data-en="Copy link" data-ta="இணைப்பை நகலெடுக்க"></span></button>
@@ -1387,7 +1397,7 @@ function setLang(l){
   $$('[data-setlang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.setlang===l)));
   const g=$('#guest'); g.placeholder=g.dataset['ph'+(l==='ta'?'Ta':'En')];
   document.title=(l==='ta')?'வர்ஷா & செல்லம் ஸ்ரீநிவாஸன் | திருமண அழைப்பிதழ்':'Varsha & Chellam Srinivasan | Wedding Invitation';
-  updateUnrollText(); renderPanel(false); renderThanks(); refreshUploadBtn();
+  renderPanel(false); renderThanks(); refreshUploadBtn();
   if(siteOn&&hasG){ requestAnimationFrame(()=>{ setupBless(); ScrollTrigger.refresh(); }); }
 }
 $$('[data-setlang]').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.setlang)));
@@ -1534,10 +1544,9 @@ document.addEventListener('click',e=>{ const b=e.target.closest('[data-cal]'); i
 
 
 /* ---------- patrika: unrolls on its own when it scrolls into view ---------- */
-const sheet=$('#sheet'), unrollBtn=$('#unrollBtn'); let rolled=false;
-function updateUnrollText(){ $('#unrollTxt').textContent= lang==='ta' ? (rolled?'பத்திரிகையை மூட':'பத்திரிகையை விரிக்க') : (rolled?'Roll it up':'Unroll the patrika'); }
+const sheet=$('#sheet'); let rolled=false;
 function unrollSheet(open){
-  rolled=open; unrollBtn.setAttribute('aria-expanded',String(open)); updateUnrollText();
+  rolled=open;
   gsap.killTweensOf(sheet);
   if(open){
     gsap.to(sheet,{height:'auto',duration:reduce?0:2.2,ease:'power3.inOut',onComplete:()=>{ if(siteOn) ScrollTrigger.refresh(); }});
@@ -1550,12 +1559,9 @@ function unrollSheet(open){
     gsap.to(sheet,{height:0,duration:reduce?0:1.2,ease:'power3.inOut',onComplete:()=>{ if(siteOn) ScrollTrigger.refresh(); }});
   }
 }
-unrollBtn.addEventListener('click',()=>unrollSheet(!rolled));
 $('#guest').addEventListener('input',e=>{
   const v=e.target.value.trim();
   $$('.guest-name').forEach(s=>{ s.textContent=v||s.dataset.blank; });
-  if(v&&!rolled) unrollSheet(true);
-  if(!reduce) gsap.fromTo($$('.guest-name'),{scale:1.18},{scale:1,duration:.4,ease:'back.out(3)'});
 });
 $$('.guest-name').forEach(s=>{ s.textContent=s.dataset.blank; });
 
@@ -1654,6 +1660,7 @@ function openGate(){
   setTimeout(()=>{ gate.classList.add('done'); startSite(); },reduce?500:4300);
 }
 $('#openBtn').addEventListener('click',openGate);
+$('#guest').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); openGate(); } });
 $('#openBtn').focus({preventScroll:true});
 
 /* ================= site animation ================= */
@@ -1898,6 +1905,18 @@ function api(payload){
   /* a string body is sent as text/plain, which needs no CORS preflight; Apps Script answers with JSON */
   return fetch(CFG.SCRIPT_URL,{method:'POST',body:JSON.stringify(payload)}).then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); });
 }
+/* photo uploads go through XMLHttpRequest so the browser can report how many bytes have been sent */
+function apiUpload(payload,onFrac){
+  if(!CFG.SCRIPT_URL) return Promise.resolve({ok:false,demo:true});
+  return new Promise((ok,no)=>{
+    const x=new XMLHttpRequest(); x.open('POST',CFG.SCRIPT_URL); x.timeout=180000;
+    x.upload.onprogress=e=>{ if(e.lengthComputable) onFrac(Math.min(.92,e.loaded/e.total*.92)); };
+    x.upload.onload=()=>onFrac(.92);
+    x.onload=()=>{ try{ onFrac(1); ok(JSON.parse(x.responseText)); }catch(e){ no(e); } };
+    x.onerror=x.ontimeout=()=>no(new Error('network'));
+    x.send(JSON.stringify(payload));
+  });
+}
 const msgBusy=()=>T('Sorry, something went wrong. Please try again in a moment.','மன்னிக்கவும், ஏதோ தவறு நேர்ந்தது. சிறிது நேரம் கழித்து மீண்டும் முயலவும்.');
 
 /* ---- live stream ---- */
@@ -2010,10 +2029,10 @@ function initPhotos(){
       if(upItems.length>=MAX_PHOTOS){ skipped++; return; }
       const el=document.createElement('div'); el.className='up';
       const im=new Image(); im.alt=''; im.onerror=()=>im.remove(); im.src=URL.createObjectURL(f);
-      const st=document.createElement('span'); st.className='st';
+      const st=document.createElement('span'); st.className='st'; const pb=document.createElement('i'); pb.className='pb';
       const rm=document.createElement('button'); rm.type='button'; rm.className='rm'; rm.setAttribute('aria-label','Remove'); rm.textContent='×';
-      el.append(im,st,rm); ups.appendChild(el);
-      const it={file:f,el,state:'queued'}; upItems.push(it);
+      el.append(im,st,pb,rm); ups.appendChild(el);
+      const it={file:f,el,bar:pb,frac:0,state:'queued'}; upItems.push(it);
       rm.addEventListener('click',()=>{ if(upBusy) return; URL.revokeObjectURL(im.src); el.remove(); upItems=upItems.filter(x=>x!==it); refreshUploadBtn(); });
       if(siteOn&&!reduce&&hasG) gsap.from(el,{scale:.6,opacity:0,duration:.45,ease:'back.out(2)',clearProps:'transform,opacity'});
     });
@@ -2032,17 +2051,23 @@ function initPhotos(){
     upBusy=true; upDemo=false; refreshUploadBtn();
     const who=($('#pName').value||'').trim(); let done=0, ok=0;
     txt.className='uptxt'; pbar.style.display='block'; fill.style.width='0';
+    /* overall progress = finished photos + the sent share of the ones in flight */
+    const render=()=>{
+      const part=q0.reduce((t,i)=>t+(i.state==='busy'?i.frac:0),0);
+      const pct=Math.min(100,Math.round((done+part)/total*100)); fill.style.width=pct+'%';
+      txt.textContent=T('Uploading '+(Math.min(done+1,total))+' of '+total+' · '+pct+'%',total+' இல் '+(Math.min(done+1,total))+' பதிவேற்றப்படுகிறது · '+pct+'%');
+    };
+    const q0=q.slice(); render();
     const worker=async()=>{
       while(q.length){
-        const it=q.shift(); setState(it,'busy');
+        const it=q.shift(); setState(it,'busy'); it.frac=0; it.bar.style.width='0';
         try{
           const p=await prepPhoto(it.file);
-          const res=await api({action:'photo',uploader:who,mime:p.mime,data:p.data,website:''});
+          const res=await apiUpload({action:'photo',uploader:who,mime:p.mime,data:p.data,website:''},f=>{ it.frac=f; it.bar.style.width=(f*100)+'%'; render(); });
           if(res.demo) upDemo=true; else if(!res.ok) throw new Error(res.error||'failed');
           setState(it,'ok'); ok++;
         }catch(e){ setState(it,'fail'); }
-        done++; fill.style.width=(done/total*100)+'%';
-        txt.textContent=T('Uploading '+done+' of '+total+'…',total+' இல் '+done+' பதிவேற்றப்படுகிறது…');
+        it.frac=1; done++; render();
       }
     };
     await Promise.all([worker(),worker()]);
@@ -2083,8 +2108,8 @@ const loadScript=src=>new Promise((ok,no)=>{ const s=document.createElement('scr
 function initPdf(){
   const btn=$('#pdfBtn');
   btn.addEventListener('click',async()=>{
-    const g=$('#guest'), name=g.value.trim();
-    if(!name){ g.focus(); g.scrollIntoView({block:'center',behavior:'smooth'}); toast(T('Type your name above first','முதலில் மேலே உங்கள் பெயரை உள்ளிடவும்')); return; }
+    const g=$('#guest'); let name=g.value.trim();
+    if(!name){ name=(window.prompt(T('Whose invitation is this? Enter a name','இது யாருக்கான அழைப்பிதழ்? பெயரை உள்ளிடவும்'))||'').trim(); if(!name) return; g.value=name; g.dispatchEvent(new Event('input')); }
     btn.disabled=true; const txt=$('#pdfTxt'), old=txt.textContent; txt.textContent=T('Preparing your PDF…','PDF தயாராகிறது…');
     let host;
     try{
