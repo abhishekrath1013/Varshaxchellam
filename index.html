@@ -1676,6 +1676,7 @@ const gate=$('#gate');
 function openGate(){
   if(gate.classList.contains('open')) return;
   gate.classList.add('open');
+  try{ sessionStorage.setItem('wedding.entered',JSON.stringify({name:$('#guest').value.trim(),lang})); }catch(e){}   /* so the Divine Call page can bring the guest back to the home page */
   rumble(); setTimeout(()=>{ if(!muted) Flute.start(ctx()); sndBtn.classList.add('playing'); },2300);
   [[659.25,.5],[523.25,1.1],[783.99,1.7],[587.33,2.5],[1046.5,3.3]].forEach(p=>bell(p[0],p[1],.13,4.8));
   setTimeout(()=>{ gate.classList.add('done'); startSite(); },reduce?500:4300);
@@ -2195,6 +2196,17 @@ $$('.bgphoto').forEach(el=>{ const im=new Image(); im.onload=()=>{ el.style.back
 $$('img[data-stock]').forEach(el=>{ const im=new Image(); im.onload=()=>{ el.src=el.dataset.stock; }; im.src=el.dataset.stock; });
 
 setLang('en');
+
+/* coming back from another page of the site (e.g. Divine Call): skip the temple doors and keep the guest's name and language */
+(function(){
+  let s=null; try{ s=JSON.parse(sessionStorage.getItem('wedding.entered')||'null'); }catch(e){}
+  if(!s) return;
+  setLang(s.lang==='ta'?'ta':'en');
+  if(s.name){ $('#guest').value=s.name; $$('.guest-name').forEach(e=>{ e.textContent=s.name; }); }
+  gate.style.display='none'; gate.classList.add('open','done');
+  muted=true; sndBtn.setAttribute('aria-pressed','false'); sndBtn.classList.remove('playing');   /* browsers block sound until a tap */
+  startSite();
+})();
 })();
 
 </script>
