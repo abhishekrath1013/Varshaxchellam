@@ -7,9 +7,9 @@
 
   YOUTUBE_URL  The YouTube live-stream link. Any of these forms work:
                https://www.youtube.com/watch?v=ID   https://youtu.be/ID   https://www.youtube.com/live/ID
-               It is a dummy right now (all X's), so the player shows "link coming soon".
+               The admin page can override it later without redeploying.
 */
 window.WEDDING_CONFIG = {
   SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzRoUaGWmQLlMYc19AOCDUupX7kdOZW4mTp4SMtCwVBZOVe27fFtJ8Z8OHfrAmy7Ci0/exec',
-  YOUTUBE_URL: 'https://www.youtube.com/watch?v=XXXXXXXXXXX'
+  YOUTUBE_URL: 'https://youtube.com/live/4bYTm5Jw1e0?feature=share'
 };
