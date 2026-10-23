@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A Divine Call | Varsha &amp; Chellam Srinivasan</title>
+<meta name="description" content="A Divine Call from Daaji Shri. Kamlesh Patel: Transforming Sacred Braj Bhumi.">
+<meta name="theme-color" content="#8A1620">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:#F6E3BC;color:#620F19;font-family:'DCPoppins',Georgia,serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+:root{--f-disp:'Playfair Display',Georgia,serif}
+img{display:block;max-width:100%}
+:focus-visible{outline:2.5px solid #F39A1E;outline-offset:3px;border-radius:4px}
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:10px clamp(14px,3vw,38px);
+  background:rgba(255,246,226,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid rgba(138,22,32,.16)}
+.brand{font-family:var(--f-disp);font-style:italic;font-weight:700;font-size:1.6rem;line-height:1;text-decoration:none;color:#8A1620;white-space:nowrap}
+.brand span{color:#E07B10}
+.back{display:inline-flex;align-items:center;gap:.5em;padding:.5em 1.2em;border-radius:999px;border:1.5px solid #8A1620;color:#8A1620;font-weight:500;font-size:.95rem;text-decoration:none;transition:background .3s,color .3s}
+.back:hover{background:#8A1620;color:#FFF3D6}
+/* Divine Call: one card that stays put while its content changes on scroll */
+@font-face{font-family:'DCPoppins';font-weight:300;font-display:swap;src:url(fonts/poppins-300.woff2) format('woff2')}
+@font-face{font-family:'DCPoppins';font-weight:400;font-display:swap;src:url(fonts/poppins-400.woff2) format('woff2')}
+@font-face{font-family:'DCPoppins';font-weight:500;font-display:swap;src:url(fonts/poppins-500.woff2) format('woff2')}
+@font-face{font-family:'DCPoppins';font-weight:700;font-display:swap;src:url(fonts/poppins-700.woff2) format('woff2')}
+@font-face{font-family:'DCBilbo';font-weight:400;font-display:swap;src:url(fonts/bilbo.woff2) format('woff2')}
+#divine{padding:0;background:#F6E3BC}
+.dv-track{position:relative;height:calc(100svh + 330vh)}
+.dv-stick{position:sticky;top:0;height:100svh;display:grid;place-items:center;padding:70px 0 18px;
+  background:radial-gradient(70% 60% at 50% 45%,#FBEBC9,#F1D8A8 70%,#E8C98F)}
+.dv-card{--w:min(92vw,580px,calc((100svh - 124px)*.7102));--u:calc(var(--w)/297.75);--m:0;--o0:1;--o1:0;--o2:0;--o3:0;
+  --brown:#620F19;--teal:#005F70;--red:#95271B;
+  position:relative;width:var(--w);aspect-ratio:297.75/419.25;overflow:hidden;border-radius:6px;background:#EAD8BC;color:var(--brown);font-family:'DCPoppins','Lora',sans-serif;
+  box-shadow:0 40px 80px -28px rgba(90,15,27,.55),0 0 0 1px rgba(184,134,31,.35)}
+.dv-card>*,.dv-s>*{position:absolute}
+.dv-bg{inset:0;width:100%;height:100%;object-fit:cover}
+.dv-flower{top:calc(var(--u)*-7);height:calc(var(--u)*82);width:auto}
+.dv-flower.l{left:calc(var(--u)*-6)}
+.dv-flower.r{right:calc(var(--u)*-6);transform:scaleX(-1)}
+.dv-feather{width:calc(var(--u)*34);height:calc(var(--u)*76)}
+.dv-feather.l{left:calc(var(--u)*42.5);top:calc(var(--u)*-24.5);transform:rotate(110deg)}
+.dv-feather.r{left:calc(var(--u)*231);top:calc(var(--u)*-26.5);transform:rotate(-110deg)}
+.dv-frame{left:calc(var(--u)*37);width:calc(var(--u)*223);top:calc(var(--u)*(60 - 26*var(--m)));bottom:calc(var(--u)*(49.25 - 40*var(--m)));
+  border:1px dotted rgba(168,104,56,.8);border-radius:calc(var(--u)*12)}
+.dv-hl{left:calc(var(--u)*38);top:calc(var(--u)*(60 - 26*var(--m)));width:calc(var(--u)*(88 - 34*var(--m)))}
+.dv-hr{left:calc(var(--u)*(154 + 39*var(--m)));top:calc(var(--u)*(60 - 26*var(--m)));width:calc(var(--u)*(106 - 40*var(--m)))}
+.dv-hl img,.dv-hr img,.dv-dance img,.dv-couple img{display:block;width:100%;height:auto}
+.dv-dance{left:calc(var(--u)*119.3);top:calc(var(--u)*45.5);width:calc(var(--u)*60.5);opacity:var(--m)}
+.dv-s{inset:0;opacity:var(--o);transform:translateY(calc((1 - var(--o))*var(--u)*10));pointer-events:none}
+.dv-s.s0{--o:var(--o0)}.dv-s.s1{--o:var(--o1)}.dv-s.s2{--o:var(--o2)}.dv-s.s3{--o:var(--o3)}
+.dv-s a{pointer-events:auto}
+.dv-s p,.dv-s div{margin:0}
+.dv-t{left:0;right:0;text-align:center;white-space:nowrap}
+.dv-couple{left:calc(var(--u)*82);top:calc(var(--u)*270);width:calc(var(--u)*136)}
+.dv-small{font-size:max(calc(var(--u)*7.6),9px);color:var(--teal);font-weight:400}
+.dv-qrbox{width:calc(var(--u)*60);aspect-ratio:1;background:#fff;left:calc(var(--u)*119)}
+.dv-qrbox img{width:100%;height:100%;display:block}
+.dv-para{left:calc(var(--u)*38);width:calc(var(--u)*222);text-align:center}
+.dv-para b{font-weight:700}
+.dv-script{font-family:'DCBilbo','Playfair Display',serif;color:var(--teal);font-weight:400;white-space:nowrap}
+/* slide 1 */
+.s0 .a{top:calc(var(--u)*180);font-size:max(calc(var(--u)*8.4),10px);line-height:calc(var(--u)*12);color:var(--red);font-weight:400}
+.s0 .b{top:calc(var(--u)*192);font-size:max(calc(var(--u)*10),11.5px);line-height:calc(var(--u)*14);color:var(--red);font-weight:700}
+.s0 .q{top:calc(var(--u)*219);font-family:var(--f-disp);font-style:italic;font-weight:700;font-size:max(calc(var(--u)*14),15px);line-height:calc(var(--u)*18);color:var(--teal)}
+/* slide 2 */
+.s1 .dv-para{top:calc(var(--u)*100);left:calc(var(--u)*43);width:calc(var(--u)*212);font-size:max(calc(var(--u)*8),9.4px);line-height:1.82;font-weight:400}
+.s1 .dv-para .m{font-weight:500}
+.s1 .dv-small,.s2 .dv-small{top:calc(var(--u)*320);left:0;right:0;text-align:center;line-height:calc(var(--u)*11)}
+.s1 .dv-qrbox,.s2 .dv-qrbox{top:calc(var(--u)*337)}
+/* slide 3 */
+.s2 .t1{top:calc(var(--u)*104);font-size:calc(var(--u)*18.6);line-height:calc(var(--u)*20)}
+.s2 .t2{top:calc(var(--u)*126);font-size:max(calc(var(--u)*8),9.4px);line-height:calc(var(--u)*12);font-weight:300;color:#000}
+.s2 .t3{top:calc(var(--u)*150);font-size:calc(var(--u)*24.6);line-height:calc(var(--u)*28)}
+.s2 .t4{top:calc(var(--u)*179);font-size:calc(var(--u)*17);line-height:calc(var(--u)*20);color:#C18643;font-family:'DCBilbo','Playfair Display',serif}
+.s2 .t5{top:calc(var(--u)*194);font-size:calc(var(--u)*24.6);line-height:calc(var(--u)*28)}
+.s2 .dv-para{top:calc(var(--u)*231);font-size:max(calc(var(--u)*6.6),8.2px);line-height:1.55;font-weight:300}
+.s2 .dv-para b{font-weight:700}
+/* slide 4 */
+.s3 .flow{left:calc(var(--u)*40);right:calc(var(--u)*40);top:calc(var(--u)*107);bottom:calc(var(--u)*22);display:flex;flex-direction:column;align-items:center;text-align:center}
+.s3 .flow>*{position:static}
+.s3 .h{font-size:calc(var(--u)*18);line-height:calc(var(--u)*20)}
+.s3 .p1{margin-top:calc(var(--u)*3);font-size:max(calc(var(--u)*5.3),8px);line-height:1.5;font-weight:300}
+.s3 .p1 b{font-weight:700}
+.s3 .h2{margin-top:calc(var(--u)*13)}
+.s3 .p2{margin-top:calc(var(--u)*6);font-size:max(calc(var(--u)*5),7.8px);line-height:1.45;font-weight:500}
+.s3 .end{margin-top:auto;display:flex;flex-direction:column;align-items:center}
+.s3 .end .dv-small{line-height:calc(var(--u)*11)}
+.s3 .end .dv-qrbox{position:static;margin-top:calc(var(--u)*6);left:auto}
+.s3 .thx{margin-top:calc(var(--u)*9);font-size:max(calc(var(--u)*5.3),8px);font-weight:300;line-height:1.3}
+.s3 .nm{font-size:max(calc(var(--u)*8.1),9.5px);line-height:calc(var(--u)*11);font-weight:700;color:var(--teal)}
+@media(max-width:600px){.dv-track{height:calc(100svh + 300vh)}.dv-card{--w:min(96vw,calc((100svh - 116px)*.7102))}}
+@media(max-width:420px){.s3 .nm br{display:none}.s3 .nm{max-width:90%}.s3 .end .dv-qrbox{width:calc(var(--u)*50)}.s3 .p2{line-height:1.38}.s3 .h2{margin-top:calc(var(--u)*8)}}
+.dv-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-size:.85rem;color:#8A5A4A;opacity:.85;pointer-events:none}
+
+
+.dv-stick{padding-top:78px}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="index.html" aria-label="Back to the invitation">V <span>&amp;</span> C</a>
+  <a class="back" href="index.html">&larr; Back to the invitation</a>
+</header>
+<main>
+<section id="divine" aria-label="A Divine Call from Daaji Shri. Kamlesh Patel">
+  <div class="dv-track" id="dvTrack">
+    <div class="dv-stick">
+      <div class="dv-card" id="dvCard">
+        <img class="dv-bg" src="images/dc-bg.jpg" alt="" loading="lazy" width="1000" height="1408">
+        <img class="dv-flower l" src="images/dc-flowers.webp" alt="" loading="lazy">
+        <img class="dv-flower r" src="images/dc-flowers.webp" alt="" loading="lazy">
+        <img class="dv-feather l" src="images/dc-feather.webp" alt="" loading="lazy">
+        <img class="dv-feather r" src="images/dc-feather.webp" alt="" loading="lazy">
+        <div class="dv-frame"></div>
+        <div class="dv-hl"><img src="images/dc-hand-l.webp" alt="" loading="lazy"></div>
+        <div class="dv-hr"><img src="images/dc-hand-r.webp" alt="" loading="lazy"></div>
+        <div class="dv-dance"><img src="images/dc-dance.webp" alt="" loading="lazy"></div>
+
+        <div class="dv-s s0">
+          <p class="dv-t a">A Divine Call from</p>
+          <p class="dv-t b">Daaji Shri. Kamlesh Patel</p>
+          <p class="dv-t q">&ldquo;Transforming Sacred Braj Bhumi&rdquo;</p>
+          <div class="dv-couple"><img src="images/dc-couple.webp" alt="Daaji Shri. Kamlesh Patel and his wife" loading="lazy"></div>
+        </div>
+
+        <div class="dv-s s1">
+          <p class="dv-para">In the sacred land where <span class="m">Lord Krishna</span> once walked, Heartfulness Institute has joined hands with devoted institutions to restore the <span class="m">celestial purity and environmental splendor of Braj Bhumi.</span> This holy abode lives in the hearts of millions of seekers, awaiting the resurgence of its divine presence through our collective reverence and care for Mother Earth. Every mindful contribution&mdash;like a precious drop filling a vast ocean&mdash;anchors this holiness into the material world. By restoring the pristine beauty of Gokulam and Mathura, we lovingly fulfill the sacred visions immortalized by the 12 Alwars in their sublime <b>&ldquo;Nalayira Divya Prabandham&rdquo;.</b></p>
+          <p class="dv-t dv-small">Scan QR to Contribute</p>
+          <div class="dv-qrbox"><img src="images/dc-qr.png" alt="QR code to contribute to the Braj Bhumi restoration" loading="lazy"></div>
+        </div>
+
+        <div class="dv-s s2">
+          <p class="dv-t dv-script t1">A Sacred Milestone:</p>
+          <p class="dv-t t2">Blessing the Union of</p>
+          <p class="dv-t dv-script t3">Varsha</p>
+          <p class="dv-t t4">&amp;</p>
+          <p class="dv-t dv-script t5">Chellam Srinivasan</p>
+          <p class="dv-para">As we gather to bless the divine union of<br><b>Sow. Varsha and Chi. Chellam Srinivasan,</b><br>we are invited to express our joy through selfless devotion.<br>In lieu of personal wedding gifts,<br><b>Kumar Rajagopalan</b> and <b>Ananthi Kumar</b> humbly request<br>that your love and blessings take the form of sacred<br>contributions toward the <b>revival of Lord Krishna's abode.</b></p>
+          <p class="dv-t dv-small">Scan QR to Contribute</p>
+          <div class="dv-qrbox"><img src="images/dc-qr.png" alt="QR code to contribute to the Braj Bhumi restoration" loading="lazy"></div>
+        </div>
+
+        <div class="dv-s s3">
+          <div class="flow">
+            <p class="dv-script h">Heartfulness Institute Approval</p>
+            <p class="p1">Heartfulness Institute confirms that all offerings made through the dedicated QR code will flow directly into the corpus fund dedicated to the Braj Bhumi Restoration Project. <b>Kumar Rajagopalan</b> and <b>Ananthi Kumar</b> will personally send an acknowledgment along with official tax receipts from the Heartfulness Institute for every contribution.</p>
+            <p class="dv-script h h2">Experiencing the Presence Within</p>
+            <p class="p2">Through the accompanying visual glimpses, experience the envisioned transformation of this sacred Divya Desam. During your next visit to the Lord Krishna&rsquo;s holy realm to immerse yourself in meditation, may you be wrapped in an atmosphere of untainted purity&mdash;feeling a profound resonance between your inner spiritual evolution and the radiant harmony of the sacred land around you.</p>
+            <div class="end">
+              <p class="dv-small">Scan QR to Contribute</p>
+              <div class="dv-qrbox"><img src="images/dc-qr.png" alt="QR code to contribute to the Braj Bhumi restoration" loading="lazy"></div>
+              <p class="thx">Thanks and Regards</p>
+              <p class="nm">Kumar Rajagopalan<br>&amp;<br>Ananthi Kumar</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="dv-hint">Keep scrolling</span>
+    </div>
+  </div>
+</section>
+</main>
+<script>
+(function(){
+'use strict';
+const $=(s,r=document)=>r.querySelector(s);
+/* ---- Divine Call: the card stays pinned (CSS sticky) and its content follows the scroll position ---- */
+function initDivine(){
+  const track=$('#dvTrack'), card=$('#dvCard'), hint=$('.dv-hint'); if(!track||!card) return;
+  const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)), ease=t=>t*t*(3-2*t);
+  let queued=false, last='';
+  function update(){
+    queued=false;
+    const r=track.getBoundingClientRect(), span=r.height-window.innerHeight; if(span<=0) return;
+    const f=clamp(-r.top/span)*3;                              /* 0 to 3: slide index with a fraction */
+    const o=i=>clamp((.5-Math.abs(f-i))/.14);                  /* hold each slide, then cross-dissolve to the next */
+    const m=ease(clamp((f-.1)/.7));
+    const key=[m,o(0),o(1),o(2),o(3)].map(v=>v.toFixed(3)).join();
+    if(key===last) return; last=key;
+    card.style.setProperty('--m',m.toFixed(3));
+    for(let i=0;i<4;i++) card.style.setProperty('--o'+i,o(i).toFixed(3));
+    if(hint) hint.style.opacity=f>2.9?0:.85;
+  }
+  const queue=()=>{ if(!queued){ queued=true; requestAnimationFrame(update); } };
+  window.addEventListener('scroll',queue,{passive:true}); window.addEventListener('resize',queue); update();
+}
+initDivine();
+})();
+</script>
+</body>
+</html>
