@@ -113,7 +113,8 @@ function savePhoto_(b) {
   const bytes = Utilities.base64Decode(b.data);
   if (bytes.length > MAX_PHOTO_BYTES) return { ok: false, error: 'File too large' };
 
-  const who = clean_(b.uploader, 60) || 'Guest';
+  const who = clean_(b.uploader, 60);
+  if (!who) return { ok: false, error: 'Name is required' };
   const slug = who.replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 24) || 'guest';
   const stamp = Utilities.formatDate(new Date(), 'Asia/Kolkata', 'yyyyMMdd-HHmmss');
   const fileName = stamp + '_' + slug + '_' + Math.floor(Math.random() * 9000 + 1000) + '.' + ext;

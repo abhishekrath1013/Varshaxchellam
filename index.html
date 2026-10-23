@@ -1282,8 +1282,8 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
         <h3 class="pc-title"><span class="en">Upload your photos</span><span class="ta">உங்கள் புகைப்படங்களைப் பதிவேற்றுக</span></h3>
         <p class="pc-sub"><span class="en">Captured a lovely moment? Share it here and it goes straight into the family's album.</span><span class="ta">இனிய தருணத்தைப் படம்பிடித்தீர்களா? இங்கே பகிருங்கள்; அது நேராக குடும்ப ஆல்பத்தில் சேரும்.</span></p>
         <div class="fld">
-          <label for="pName"><span data-en="Your name" data-ta="உங்கள் பெயர்"></span> <span class="opt" data-en="(optional)" data-ta="(விருப்பம்)"></span></label>
-          <input id="pName" type="text" maxlength="60" autocomplete="name">
+          <label for="pName"><span data-en="Your name" data-ta="உங்கள் பெயர்"></span> *</label>
+          <input id="pName" type="text" maxlength="60" autocomplete="name" required>
         </div>
 
         <label class="drop" id="drop" for="pFiles">
@@ -2101,7 +2101,10 @@ const MAX_PHOTOS=20, MAX_EDGE=2400;
 let upItems=[], upBusy=false, upDemo=false;
 function refreshUploadBtn(){
   const n=upItems.filter(i=>i.state==='queued'||i.state==='fail').length;
-  $('#upGo').disabled=upBusy||!n;
+  const named=!!$('#pName').value.trim();
+  $('#upGo').disabled=upBusy||!n||!named;
+  const t=$('#upTxt'); if(!upBusy&&n&&!named){ t.className='uptxt err'; t.textContent=T('Please enter your name to upload.','பதிவேற்ற உங்கள் பெயரை உள்ளிடவும்.'); } else if(named&&t.dataset.need){ t.textContent=''; t.className='uptxt'; }
+  t.dataset.need=(n&&!named)?'1':'';
   $('#upGoTxt').textContent=n?T('Upload '+n+(n===1?' photo':' photos'),n+' படங்களைப் பதிவேற்று'):T('Upload photos','படங்களைப் பதிவேற்று');
   $('#upClear').hidden=!upItems.length;
 }
@@ -2152,7 +2155,9 @@ function initPhotos(){
   drop.addEventListener('drop',e=>add(e.dataTransfer.files));
   $('#upClear').addEventListener('click',()=>{ if(upBusy) return; upItems.forEach(i=>i.el.remove()); upItems=[]; txt.textContent=''; pbar.style.display='none'; refreshUploadBtn(); if(siteOn&&hasG) ScrollTrigger.refresh(); });
 
+  $('#pName').addEventListener('input',()=>{ $('#pName').classList.remove('bad'); refreshUploadBtn(); });
   $('#upGo').addEventListener('click',async()=>{
+    if(!$('#pName').value.trim()){ $('#pName').classList.add('bad'); $('#pName').focus(); refreshUploadBtn(); return; }
     const q=upItems.filter(i=>i.state==='queued'||i.state==='fail'), total=q.length; if(!total||upBusy) return;
     upBusy=true; upDemo=false; refreshUploadBtn();
     const who=($('#pName').value||'').trim(); let done=0, ok=0;
