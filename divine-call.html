@@ -93,7 +93,6 @@ img{display:block;max-width:100%}
 .s3 .nm{font-size:max(calc(var(--u)*8.1),9.5px);line-height:calc(var(--u)*11);font-weight:700;color:var(--teal)}
 @media(max-width:600px){.dv-track{height:calc(100svh + 300vh)}.dv-card{--w:min(96vw,calc((100svh - 116px)*.7102))}}
 @media(max-width:420px){.s3 .nm br{display:none}.s3 .nm{max-width:90%}.s3 .end .dv-qrbox{width:calc(var(--u)*50)}.s3 .p2{line-height:1.38}.s3 .h2{margin-top:calc(var(--u)*8)}}
-.dv-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-size:.85rem;color:#8A5A4A;opacity:.85;pointer-events:none}
 
 
 .dv-stick{padding-top:78px}
@@ -159,7 +158,6 @@ img{display:block;max-width:100%}
           </div>
         </div>
       </div>
-      <span class="dv-hint">Keep scrolling</span>
     </div>
   </div>
 </section>
@@ -170,7 +168,7 @@ img{display:block;max-width:100%}
 const $=(s,r=document)=>r.querySelector(s);
 /* ---- Divine Call: the card stays pinned (CSS sticky) and its content follows the scroll position ---- */
 function initDivine(){
-  const track=$('#dvTrack'), card=$('#dvCard'), hint=$('.dv-hint'); if(!track||!card) return;
+  const track=$('#dvTrack'), card=$('#dvCard'); if(!track||!card) return;
   const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)), ease=t=>t*t*(3-2*t);
   let queued=false, last='';
   function update(){
@@ -183,7 +181,6 @@ function initDivine(){
     if(key===last) return; last=key;
     card.style.setProperty('--m',m.toFixed(3));
     for(let i=0;i<4;i++) card.style.setProperty('--o'+i,o(i).toFixed(3));
-    if(hint) hint.style.opacity=f>2.9?0:.85;
   }
   const queue=()=>{ if(!queued){ queued=true; requestAnimationFrame(update); } };
   window.addEventListener('scroll',queue,{passive:true}); window.addEventListener('resize',queue); update();
