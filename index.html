@@ -465,6 +465,10 @@ body[data-lang="ta"] .pcap b{font-family:var(--f-ta-d)}
 .qr-open{display:flex;width:max-content;margin:0 auto 1.4rem}
 .disclaimer{padding:.8rem 1rem;border-left:3px solid #F39A1E;background:rgba(243,154,30,.12);border-radius:0 8px 8px 0;color:#5A2B25;font-size:1rem;text-align:left}
 @media(max-width:900px){.photo-grid{grid-template-columns:1fr;max-width:620px}}
+/* tiny "sending" state so people can see the form is working */
+.btn.sending{pointer-events:none;opacity:.92}
+.btn.sending>svg{display:none}
+.btn.sending::after{content:"";width:1.05em;height:1.05em;border-radius:50%;border:2.5px solid rgba(255,243,214,.35);border-top-color:#FFF3D6;animation:spin .7s linear infinite;flex:none}
 /* request forms (live link, photo upload link) */
 .reqform .btn.solid{width:100%;justify-content:center;font-size:1.12rem;padding:.9em 1.6em}
 .reqform input.bad{border-color:#B3261E}
@@ -2052,7 +2056,7 @@ function initRsvp(){
     if(email&&!/^\S+@\S+\.\S+$/.test(email)) return fail(T('That email address does not look right.','மின்னஞ்சல் முகவரி சரியாக இல்லை.'),$('#rEmail'));
     if(!att) return fail(T('Please tell us whether you can join.','வருகை தருவீர்களா என்பதைத் தெரிவிக்கவும்.'));
     if(att==='Yes'&&!events.length) return fail(T('Please choose at least one event.','குறைந்தது ஒரு நிகழ்ச்சியைத் தேர்ந்தெடுக்கவும்.'));
-    btn.disabled=true;
+    const lab=$('span',btn), old=lab.textContent; btn.disabled=true; btn.classList.add('sending'); lab.textContent=T('Sending…','அனுப்புகிறது…');
     api({action:'rsvp',name,phone:(fd.get('phone')||'').trim(),email,attending:att,events:att==='Yes'?events:[],guests:att==='Yes'?guests:0,message:(fd.get('message')||'').trim(),lang,website:fd.get('website')||''})
       .then(res=>{
         if(!res.ok&&!res.demo) throw new Error(res.error||'failed');
@@ -2062,7 +2066,7 @@ function initRsvp(){
         if(att==='Yes'&&siteOn){ const r=card.getBoundingClientRect(); burst.fire(r.left+r.width/2,Math.max(80,r.top+120),54,1.3); bell(783.99,0,.08,3); bell(1046.5,.3,.06,3); }
       })
       .catch(()=>fail(msgBusy()))
-      .then(()=>{ btn.disabled=false; });
+      .then(()=>{ btn.disabled=false; btn.classList.remove('sending'); lab.textContent=old; });
   });
   $('#rAgain').addEventListener('click',()=>{
     form.reset(); setG(1); evBox.hidden=true; rsvpResult=null; card.classList.remove('done','demo'); err.textContent='';
@@ -2091,12 +2095,12 @@ function initRequests(){
       if(!name) return fail(T('Please enter your name.','உங்கள் பெயரை உள்ளிடவும்.'),form.elements.name);
       if(phone.replace(/\D/g,'').length<7||!/^[+\d][\d\s()+.-]*$/.test(phone)) return fail(T('Please enter a valid phone number.','சரியான தொலைபேசி எண்ணை உள்ளிடவும்.'),form.elements.phone);
       if(email&&!/^\S+@\S+\.\S+$/.test(email)) return fail(T('That email address does not look right.','மின்னஞ்சல் முகவரி சரியாக இல்லை.'),form.elements.email);
-      btn.disabled=true;
+      const lab=$('span',btn), old=lab.textContent; btn.disabled=true; btn.classList.add('sending'); lab.textContent=T('Sending…','அனுப்புகிறது…');
       api({action:form.dataset.action,name,phone,email,lang,website:fd.get('website')||''}).then(res=>{
         if(!res.ok&&!res.demo) throw new Error(res.error||'failed');
         reqDone[form.id]={name}; renderReqThanks(); card.classList.add('done'); card.classList.toggle('demo',!!res.demo);
         if(siteOn&&hasG){ ScrollTrigger.refresh(); if(!reduce) gsap.from($('.thanks',card).children,{opacity:0,y:20,duration:.7,stagger:.1,ease:'power3.out'}); const r=card.getBoundingClientRect(); burst.fire(r.left+r.width/2,Math.max(80,r.top+120),40,1.1); bell(783.99,0,.08,3); }
-      }).catch(()=>fail(msgBusy())).then(()=>{ btn.disabled=false; });
+      }).catch(()=>fail(msgBusy())).then(()=>{ btn.disabled=false; btn.classList.remove('sending'); lab.textContent=old; });
     });
   });
 }

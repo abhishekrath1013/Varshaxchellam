@@ -78,6 +78,7 @@ tr:hover td{background:rgba(243,154,30,.08)}
         <button class="btn" id="dlCsv" type="button">Download CSV</button>
         <button class="btn" id="refresh" type="button">Refresh</button>
         <a class="btn" id="sheetLink" target="_blank" rel="noopener" href="#">Open Google Sheet</a>
+        <a class="btn" id="folderLink" target="_blank" rel="noopener" href="#">Open photo folder</a>
         <button class="btn" id="logout" type="button">Lock</button>
         <button class="btn danger" id="clearBtn" type="button">Clear all</button>
       </div>
@@ -128,7 +129,7 @@ function load(){
   return api({action:'list',key:key}).then(function(d){
     if(!d.ok) throw new Error(d.error||'Could not load');
     headers=d.headers; rows=d.rows;
-    $('#sheetLink').href=d.sheetUrl;
+    $('#sheetLink').href=d.sheetUrl; $('#folderLink').href=d.folderUrl||'#';
     render();
   });
 }

@@ -1,17 +1,18 @@
 /**
  * Varsha & Chellam wedding site: backend (Google Apps Script web app)
  *
- * One Google Sheet, three tabs, all filled automatically:
+ * One Google Sheet (three tabs) plus one Drive folder, all filled automatically:
  *   - FIRST tab        : the RSVP form (the tab your RSVPs already go to; it is not renamed)
  *   - "YouTube Live"   : guests asking for the YouTube live link (name, phone, email)
  *   - "Upload Photos"  : guests asking for the photo upload link (name, phone, email)
+ *   - Drive folder    : photos uploaded from the private /share-photos page
  * The admin page (/admin) reads the RSVP tab with the admin password, and can clear it.
  *
  * Setup (about 3 minutes). Your project already exists, so this only updates it:
  *   1. Go to script.google.com > open your wedding project. Replace ALL the code with this file.
  *   2. Project Settings (gear icon) > Script properties: ADMIN_KEY must still be set to your password.
- *   3. Pick the function "setup" in the toolbar and press Run. Approve the permissions if asked.
- *      The log should say "Setup OK" and the two new tabs now exist in your sheet.
+ *   3. Pick the function "setup" in the toolbar and press Run. Approve the permissions if asked
+ *      (Drive access is needed again for the photo folder). The log should say "Setup OK".
  *   4. Deploy > Manage deployments > pencil (edit) > Version: New version > Deploy.
  *      The web app URL stays the same, so nothing changes in config.js.
  *
@@ -20,6 +21,9 @@
  */
 
 const SHEET_ID = '1nsryr4OJdMiHY2SsBhxc5V-ci9dTbxoEPM13In_YJRk';
+const DRIVE_FOLDER_ID = '1goi613i4MlBu9TyKvfgKymkrNwAsyYCi';
+const MAX_PHOTO_BYTES = 12 * 1024 * 1024;
+const PHOTO_TYPES = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/heic': 'heic', 'image/heif': 'heif', 'image/gif': 'gif' };
 
 const TABS = {
   rsvp:     { name: '',              headers: ['Timestamp (IST)', 'Name', 'Phone', 'Email', 'Attending', 'Events', 'Guests', 'Message', 'Language'], text: [1, 2, 3, 4, 5, 6, 8, 9] },
@@ -40,6 +44,7 @@ function doPost(e) {
       case 'rsvp':     return out_(saveRsvp_(body));
       case 'livereq':  return out_(saveRequest_('livereq', body));
       case 'photoreq': return out_(saveRequest_('photoreq', body));
+      case 'photo':    return out_(savePhoto_(body));
       case 'list':     return out_(listRsvps_(body));
       case 'clear':    return out_(clearRsvps_(body));
       default:         return out_({ ok: false, error: 'Unknown action' });
@@ -73,6 +78,24 @@ function saveRequest_(kind, b) {
   if (!name) return { ok: false, error: 'Name is required' };
   if (phone.replace(/\D/g, '').length < 7) return { ok: false, error: 'A valid phone number is required' };
   appendRow_(kind, [now_(), name, phone, clean_(b.email, 120), b.lang === 'ta' ? 'Tamil' : 'English']);
+  return { ok: true };
+}
+
+/* ---------- Photos from the /share-photos page go into the Drive folder ---------- */
+function savePhoto_(b) {
+  const mime = String(b.mime || '').toLowerCase();
+  const ext = PHOTO_TYPES[mime];
+  if (!ext || !b.data) return { ok: false, error: 'Unsupported file' };
+  const who = clean_(b.uploader, 60);
+  if (!who) return { ok: false, error: 'Name is required' };
+  const bytes = Utilities.base64Decode(b.data);
+  if (bytes.length > MAX_PHOTO_BYTES) return { ok: false, error: 'File too large' };
+
+  const slug = who.replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 24) || 'guest';
+  const stamp = Utilities.formatDate(new Date(), 'Asia/Kolkata', 'yyyyMMdd-HHmmss');
+  const fileName = stamp + '_' + slug + '_' + Math.floor(Math.random() * 9000 + 1000) + '.' + ext;
+  const file = DriveApp.getFolderById(DRIVE_FOLDER_ID).createFile(Utilities.newBlob(bytes, mime, fileName));
+  file.setDescription('Uploaded by: ' + who);
   return { ok: true };
 }
 
@@ -136,7 +159,7 @@ function listRsvps_(b) {
     headers: t.headers,
     rows: rows,
     sheetUrl: 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/edit',
-    folderUrl: ''
+    folderUrl: 'https://drive.google.com/drive/folders/' + DRIVE_FOLDER_ID
   };
 }
 
@@ -165,11 +188,12 @@ function out_(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
 }
 
-/** Run this once from the editor: authorises access and creates the two new tabs. */
+/** Run this once from the editor: authorises access, creates the two new tabs, checks the photo folder. */
 function setup() {
   if (!PropertiesService.getScriptProperties().getProperty('ADMIN_KEY')) {
     throw new Error('Add the ADMIN_KEY script property first (Project Settings > Script properties).');
   }
   const names = Object.keys(TABS).map(function (k) { return tabSheet_(k).getName(); });
-  console.log('Setup OK. Tabs ready: ' + names.join(', '));
+  const folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
+  console.log('Setup OK. Tabs ready: ' + names.join(', ') + '. Photo folder: ' + folder.getName());
 }

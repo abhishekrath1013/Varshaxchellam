@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Share Your Photos | Varsha &amp; Chellam Srinivasan</title>
+<meta name="theme-color" content="#8A1620">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,700&display=swap" rel="stylesheet">
+<style>
+:root{--hd:#8A1620;--ac:#B8861F;--fg:#3A1015;--fg2:#6A3B34;--ln:rgba(138,22,32,.24);--shadow:rgba(90,15,27,.35);--f-disp:'Playfair Display',Georgia,serif;--f-en:'Lora',Georgia,serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100svh;color:var(--fg);font-family:var(--f-en);font-size:1.12rem;line-height:1.7;background:#EAD8BC;-webkit-font-smoothing:antialiased;overflow-x:clip}
+.bg{position:fixed;inset:0;z-index:-1;background:#EAD8BC url(images/site-bg.jpg) center top/cover no-repeat}
+img{display:block;max-width:100%}
+:focus-visible{outline:2.5px solid #F39A1E;outline-offset:3px;border-radius:4px}
+.top{text-align:center;padding:clamp(28px,6vh,60px) 16px 0}
+.brand{font-family:var(--f-disp);font-style:italic;font-weight:700;font-size:2.2rem;color:var(--hd);line-height:1}
+.brand span{color:#E07B10}
+h1{font-family:var(--f-disp);font-weight:700;font-size:clamp(2rem,5vw,3.2rem);color:var(--hd);line-height:1.2;margin-top:.5rem}
+.sub{max-width:34em;margin:.8rem auto 0;color:var(--fg2)}
+.wrap{width:min(900px,92vw);margin:clamp(24px,5vh,46px) auto clamp(40px,8vh,80px)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;padding:.8em 1.6em;border-radius:999px;border:1.5px solid var(--hd);color:var(--hd);background:transparent;font:inherit;font-size:1.05rem;font-weight:600;cursor:pointer;text-decoration:none;line-height:1.3;transition:background .3s,color .3s,box-shadow .3s}
+.btn:hover{background:var(--hd);color:#FFF3D6}
+.btn.solid{background:linear-gradient(180deg,#A8242C,#7B1118);color:#FFF3D6;border-color:transparent;box-shadow:0 10px 26px -10px var(--shadow)}
+.btn.solid:hover{box-shadow:0 14px 34px -10px rgba(90,15,27,.6)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn svg{width:1.1em;height:1.1em;flex:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes ring{0%{transform:scale(.9);opacity:.8}100%{transform:scale(1.5);opacity:0}}
+.card{padding:clamp(22px,4vw,44px);background:rgba(255,251,241,.86);border:1px solid var(--ln);border-radius:14px;box-shadow:0 30px 60px -34px var(--shadow)}
+.fld{margin-bottom:1.4rem}
+.fld>label{display:block;font-weight:600;color:var(--hd);margin-bottom:.45rem}
+.fld input[type=text]{width:100%;padding:.75em 1.1em;border-radius:14px;border:1.5px solid var(--ln);background:#fff;color:var(--fg);font:inherit;font-size:1.08rem}
+.fld input:focus{outline:none;border-color:#F39A1E;box-shadow:0 0 0 5px rgba(243,154,30,.28)}
+.fld input.bad{border-color:#B3261E}
+.fmsg{min-height:1.4em;color:#B3261E}
+/* photo dropzone */
+.drop{display:block;text-align:center;padding:clamp(28px,5vw,52px) 1rem;border:2px dashed #C28F2C;border-radius:16px;background:rgba(255,246,226,.6);cursor:pointer;transition:background .3s,border-color .3s,transform .3s}
+.drop:hover,.drop.over{background:rgba(243,154,30,.14);border-color:#F39A1E;transform:translateY(-2px)}
+.drop:focus-within{outline:2.5px solid #F39A1E;outline-offset:3px}
+.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.drop svg{width:54px;height:54px;margin:0 auto 10px;color:var(--ac)}
+.drop b{display:block;font-size:1.25rem;color:var(--hd)}
+.drop small{display:block;color:var(--fg2);margin-top:.3rem;font-size:.98rem}
+.ups{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;margin:22px 0 4px}
+.up{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#eadcc0}
+.up img{width:100%;height:100%;object-fit:cover}
+.up .st{position:absolute;inset:0;display:grid;place-items:center;background:rgba(18,6,10,.45);color:#fff;font-size:1.6rem;opacity:0;transition:opacity .3s}
+.up.busy .st,.up.ok .st,.up.fail .st{opacity:1}
+.up.busy .st::after{content:"";width:28px;height:28px;border-radius:50%;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;animation:spin .8s linear infinite}
+.up.ok .st{background:rgba(31,107,44,.6)}.up.ok .st::after{content:"✓"}
+.up.fail .st{background:rgba(179,38,30,.7)}.up.fail .st::after{content:"!"}
+.up .rm{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:0;background:rgba(18,6,10,.75);color:#fff;font-size:1rem;line-height:1;cursor:pointer;z-index:2}
+.up.busy .rm,.up.ok .rm{display:none}
+.pbar{height:12px;border-radius:8px;background:rgba(138,22,32,.16);overflow:hidden;margin:18px 0 8px;display:none}
+.pbar i{display:block;height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,#F39A1E,#A8242C);transition:width .25s linear}
+.uptxt{font-weight:600}
+.up .pb{position:absolute;left:0;bottom:0;height:5px;width:0;background:#F39A1E;z-index:1;transition:width .25s linear}
+.up.ok .pb{background:#3aa655}
+.uptxt{min-height:1.5em;color:var(--fg2);font-size:1rem;margin-bottom:1rem}
+.uptxt.err{color:#B3261E}
+.up-acts{display:flex;gap:.8rem;flex-wrap:wrap}
+.up-acts .btn.solid{flex:1 1 220px;width:auto}
+
+/* ================= one common look: the same parchment-and-temple background behind every section ================= */
+body{background:#EAD8BC}
+.site-bg{position:fixed;left:50%;top:0;z-index:-1;height:max(125vw,140vh);width:max(100vw,112vh);pointer-events:none;will-change:transform;transform:translate3d(-50%,0,0)}
+.site-bg img{width:100%;height:100%;display:block}
+.scal,.bgphoto{display:none!important}
+.t-ivory,.t-sandal,.t-blush,.t-kumkum,.t-teal{--bg:#F1DEB9;--ovc:250,240,220;--fg:#3A1015;--fg2:#6A3B34;--hd:#8A1620;--ac:#B8861F;--ln:rgba(138,22,32,.24);--card:rgba(255,251,241,.8);--btn-bg:linear-gradient(180deg,#A8242C,#7B1118);--btn-fg:#FFF3D6;--shadow:rgba(90,15,27,.35)}
+section,footer{background:rgba(var(--ovc),var(--veil,.5))}
+.t-sandal,.t-teal{--veil:.62}
+.hero{background:radial-gradient(60% 55% at 74% 42%,rgba(243,154,30,.2),transparent 70%),radial-gradient(40% 30% at 50% 0,rgba(255,255,255,.4),transparent 70%)}
+.pname{color:var(--hd)}
+.pair-art .weds{color:var(--hd)}
+.person{background:var(--card)}
+.person::after{background:radial-gradient(circle at var(--gx,50%) var(--gy,0%),rgba(255,236,170,.35),transparent 55%)}
+.person summary:hover,.person details[open] summary{color:#fff}
+.mpanel{background:var(--card)}
+.mono{color:var(--hd)}
+.bless-mandala{color:#B8861F;opacity:.1}
+.stage{box-shadow:0 30px 60px -30px rgba(90,15,27,.5),0 0 0 6px rgba(250,240,220,.9),0 0 0 7.5px rgba(184,134,31,.55)}
+.player{box-shadow:0 30px 60px -30px rgba(90,15,27,.55),0 0 0 6px rgba(250,240,220,.9),0 0 0 7.5px rgba(184,134,31,.55)}
+.mo{background:#FFFBF1}
+/* florals only at the top of the home page, placed like the Divine Call page, and they part left and right on scroll */
+.hero{--u:clamp(3.4px,.5vw,7px)}
+.hx{position:absolute;top:62px;pointer-events:none;z-index:1;max-width:none;opacity:var(--fo,1);will-change:transform}
+.hx.fl{height:calc(var(--u)*44);width:auto}
+.hx.fl.l{left:0;transform:translate3d(calc(var(--fx,0px)*-1),0,0) scaleX(-1)}
+.hx.fl.r{right:0;transform:translate3d(var(--fx,0px),0,0)}
+.hx.fe{width:calc(var(--u)*17);height:auto}
+.hx.fe.l{left:calc(var(--u)*22);top:calc(62px + var(--u)*1);transform:translate3d(calc(var(--fx,0px)*-1.25),0,0) rotate(110deg)}
+.hx.fe.r{right:calc(var(--u)*22);top:calc(62px + var(--u)*1);transform:translate3d(calc(var(--fx,0px)*1.25),0,0) rotate(-110deg)}
+@media(min-width:901px){.hero{padding-top:270px}.hero-text{padding-left:clamp(0px,3vw,44px)}}
+/* photos at full strength: the glow on the cards no longer sits on top of the portraits */
+.person::after{z-index:0}
+.person>*{position:relative;z-index:1}
+.medal.photo img{filter:none;opacity:1}
+/* engagement and mandapam photos become swipeable carousels on phones */
+.dots{display:none}
+@media(max-width:700px){
+  section{padding:clamp(48px,12vw,60px) 0}
+  .sec-head{margin-bottom:26px}
+  .sec-sub{font-size:1.02rem}
+  body{font-size:1.06rem;line-height:1.65}
+  /* hero: smaller picture, florals out at the edges */
+  .hero{padding:104px 0 56px;min-height:0}
+  .hero-art{width:min(190px,50vw)}
+  .count{margin:20px 0}
+  .hx.fl{height:210px}.hx.fl.l{left:-4px}.hx.fl.r{right:-4px}
+  .hx.fe{width:calc(var(--u)*17);top:72px}.hx.fe.l{left:12px}.hx.fe.r{right:12px}
+  /* invitation */
+  .sheet-in{padding:26px 18px}
+  .sheet p{margin:.6rem 0}
+  /* couple */
+  .couple-grid{gap:14px}
+  .person{padding:26px 16px 20px}
+  .couple-grid .person .parents{min-height:0}
+  .pair-art .ringwrap{width:130px}
+  .pair-art{gap:6px}
+  /* families side by side */
+  .fams{grid-template-columns:1fr 1fr;max-width:none;gap:12px}
+  .fam-knot{display:none}
+  .fcard h3{font-size:1rem}
+  .fcard .honor{margin-top:12px;font-size:.92rem}
+  /* celebrations */
+  .timeline{gap:26px}
+  .ev .card{padding:20px 18px}
+  .ev dl{margin:.5rem 0 .9rem}
+  /* swipeable carousels */
+  .mgrid,.mgal{display:flex;grid-template-columns:none;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:-4vw;padding:6px 4vw 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .mgrid::-webkit-scrollbar,.mgal::-webkit-scrollbar{display:none}
+  .mgrid .mo{flex:0 0 78%;scroll-snap-align:center;margin-top:0!important;transform:none}
+  .mgal img{flex:0 0 80%;width:80%;scroll-snap-align:center}
+  .dots{display:flex;justify-content:center;gap:7px;margin-top:6px}
+  .dots i{width:7px;height:7px;border-radius:50%;background:rgba(138,22,32,.28);transition:background .3s,transform .3s}
+  .dots i.on{background:#8A1620;transform:scale(1.35)}
+  /* live, photos, venue */
+  .live-note{margin-top:16px}
+  .photo-grid{gap:18px}
+  .formcard{padding:22px 16px}
+  .drop{padding:20px 12px}
+  .pc-sub{margin-bottom:1rem}
+  .qrface{width:min(100%,200px)}
+  .mpanel{min-height:0;margin-top:20px}
+  .mapbox{min-height:260px}
+  footer{padding:56px 0 64px}
+}
+
+
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<header class="top"><p class="brand">V <span>&amp;</span> C</p>
+  <h1>Share Your Photos</h1>
+  <p class="sub">Captured a lovely moment at the wedding? Upload it here and it goes straight into the family&rsquo;s album.</p>
+</header>
+<main class="wrap">
+  <div class="card" id="photoCard">
+    <div class="fld">
+      <label for="pName">Your name *</label>
+      <input id="pName" type="text" maxlength="60" autocomplete="name" required>
+    </div>
+    <label class="drop" id="drop" for="pFiles">
+      <input id="pFiles" type="file" accept="image/*" multiple>
+      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="38" height="28" rx="4"/><circle cx="16" cy="21" r="3.2"/><path d="M5 34l11-9 8 7 7-6 12 10"/><path d="M36 4v8M32 8h8" stroke-width="2.4"/></svg>
+      <b>Tap to choose photos, or drop them here</b>
+      <small>Up to 20 photos at a time. JPG, PNG, HEIC and WebP all work.</small>
+    </label>
+    <div class="ups" id="ups" aria-live="polite"></div>
+    <div class="pbar" id="pbar"><i></i></div>
+    <div class="uptxt" id="upTxt" role="status"></div>
+    <div class="up-acts">
+      <button class="btn solid" id="upGo" type="button" disabled><span id="upGoTxt">Upload photos</span></button>
+      <button class="btn" id="upClear" type="button" hidden>Clear</button>
+    </div>
+  </div>
+</main>
+<script src="config.js"></script>
+<script>
+(function(){
+'use strict';
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const CFG=window.WEDDING_CONFIG||{};
+let lang='en', siteOn=false, hasG=false, reduce=true;
+const T=(en)=>en;
+const burst={fire(){}}; const bell=()=>{}; const ScrollTrigger={refresh(){}};
+
+const msgBusy=()=>'Sorry, something went wrong. Please try again in a moment.';
+function apiUpload(payload,onFrac){
+  if(!CFG.SCRIPT_URL) return Promise.resolve({ok:false,demo:true});
+  return new Promise((ok,no)=>{
+    const x=new XMLHttpRequest(); x.open('POST',CFG.SCRIPT_URL); x.timeout=180000;
+    x.upload.onprogress=e=>{ if(e.lengthComputable) onFrac(Math.min(.92,e.loaded/e.total*.92)); };
+    x.upload.onload=()=>onFrac(.92);
+    x.onload=()=>{ try{ onFrac(1); ok(JSON.parse(x.responseText)); }catch(e){ no(e); } };
+    x.onerror=x.ontimeout=()=>no(new Error('network'));
+    x.send(JSON.stringify(payload));
+  });
+}
+
+const MAX_PHOTOS=20, MAX_EDGE=2400;
+let upItems=[], upBusy=false, upDemo=false;
+function refreshUploadBtn(){
+  const n=upItems.filter(i=>i.state==='queued'||i.state==='fail').length;
+  const named=!!$('#pName').value.trim();
+  $('#upGo').disabled=upBusy||!n||!named;
+  const t=$('#upTxt'); if(!upBusy&&n&&!named){ t.className='uptxt err'; t.textContent=T('Please enter your name to upload.','பதிவேற்ற உங்கள் பெயரை உள்ளிடவும்.'); } else if(named&&t.dataset.need){ t.textContent=''; t.className='uptxt'; }
+  t.dataset.need=(n&&!named)?'1':'';
+  $('#upGoTxt').textContent=n?T('Upload '+n+(n===1?' photo':' photos'),n+' படங்களைப் பதிவேற்று'):T('Upload photos','படங்களைப் பதிவேற்று');
+  $('#upClear').hidden=!upItems.length;
+}
+function blobToB64(b){ return new Promise((ok,no)=>{ const r=new FileReader(); r.onload=()=>ok(String(r.result).split(',')[1]); r.onerror=no; r.readAsDataURL(b); }); }
+async function prepPhoto(file){
+  /* shrink big phone photos in the browser (keeps them sharp, makes uploads fast) */
+  try{
+    let bmp; try{ bmp=await createImageBitmap(file,{imageOrientation:'from-image'}); }catch(e){ bmp=await createImageBitmap(file); }
+    const s=Math.min(1,MAX_EDGE/Math.max(bmp.width,bmp.height));
+    if(s===1&&file.type==='image/jpeg'&&file.size<2.5*1048576){ bmp.close&&bmp.close(); return {mime:'image/jpeg',data:await blobToB64(file)}; }
+    const c=document.createElement('canvas'); c.width=Math.round(bmp.width*s); c.height=Math.round(bmp.height*s);
+    c.getContext('2d').drawImage(bmp,0,0,c.width,c.height); bmp.close&&bmp.close();
+    const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',.86));
+    return {mime:'image/jpeg',data:await blobToB64(blob)};
+  }catch(e){
+    /* the browser cannot decode it (for example HEIC on desktop Chrome): send the original if it is a sane size */
+    if(file.size>9*1048576) throw e;
+    const mime=file.type||(/\.hei[cf]$/i.test(file.name)?'image/heic':'');
+    if(!mime) throw e;
+    return {mime,data:await blobToB64(file)};
+  }
+}
+function initPhotos(){
+  const input=$('#pFiles'), drop=$('#drop'), ups=$('#ups'), txt=$('#upTxt'), pbar=$('#pbar'), fill=$('i',pbar);
+  const setState=(it,s)=>{ it.state=s; it.el.className='up '+(s==='queued'?'':s); };
+  function add(files){
+    const list=Array.from(files).filter(f=>/^image\//.test(f.type)||/\.(heic|heif)$/i.test(f.name));
+    if(!list.length) return;
+    let skipped=0;
+    list.forEach(f=>{
+      if(upItems.length>=MAX_PHOTOS){ skipped++; return; }
+      const el=document.createElement('div'); el.className='up';
+      const im=new Image(); im.alt=''; im.onerror=()=>im.remove(); im.src=URL.createObjectURL(f);
+      const st=document.createElement('span'); st.className='st'; const pb=document.createElement('i'); pb.className='pb';
+      const rm=document.createElement('button'); rm.type='button'; rm.className='rm'; rm.setAttribute('aria-label','Remove'); rm.textContent='×';
+      el.append(im,st,pb,rm); ups.appendChild(el);
+      const it={file:f,el,bar:pb,frac:0,state:'queued'}; upItems.push(it);
+      rm.addEventListener('click',()=>{ if(upBusy) return; URL.revokeObjectURL(im.src); el.remove(); upItems=upItems.filter(x=>x!==it); refreshUploadBtn(); });
+      if(siteOn&&!reduce&&hasG) gsap.from(el,{scale:.6,opacity:0,duration:.45,ease:'back.out(2)',clearProps:'transform,opacity'});
+    });
+    txt.className='uptxt'; txt.textContent=skipped?T('Only '+MAX_PHOTOS+' photos fit in one go. Upload these, then add more.','ஒரே முறையில் '+MAX_PHOTOS+' படங்கள் மட்டுமே. இவற்றைப் பதிவேற்றிய பின் மேலும் சேர்க்கவும்.'):'';
+    pbar.style.display='none'; fill.style.width='0';
+    refreshUploadBtn(); if(siteOn&&hasG) ScrollTrigger.refresh();
+  }
+  input.addEventListener('change',()=>{ add(input.files); input.value=''; });
+  ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{ e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{ e.preventDefault(); drop.classList.remove('over'); }));
+  drop.addEventListener('drop',e=>add(e.dataTransfer.files));
+  $('#upClear').addEventListener('click',()=>{ if(upBusy) return; upItems.forEach(i=>i.el.remove()); upItems=[]; txt.textContent=''; pbar.style.display='none'; refreshUploadBtn(); if(siteOn&&hasG) ScrollTrigger.refresh(); });
+
+  $('#pName').addEventListener('input',()=>{ $('#pName').classList.remove('bad'); refreshUploadBtn(); });
+  $('#upGo').addEventListener('click',async()=>{
+    if(!$('#pName').value.trim()){ $('#pName').classList.add('bad'); $('#pName').focus(); refreshUploadBtn(); return; }
+    const q=upItems.filter(i=>i.state==='queued'||i.state==='fail'), total=q.length; if(!total||upBusy) return;
+    upBusy=true; upDemo=false; refreshUploadBtn();
+    const who=($('#pName').value||'').trim(); let done=0, ok=0;
+    txt.className='uptxt'; pbar.style.display='block'; fill.style.width='0';
+    /* overall progress = finished photos + the sent share of the ones in flight */
+    const render=()=>{
+      const part=q0.reduce((t,i)=>t+(i.state==='busy'?i.frac:0),0);
+      const pct=Math.min(100,Math.round((done+part)/total*100)); fill.style.width=pct+'%';
+      txt.textContent=T('Uploading '+(Math.min(done+1,total))+' of '+total+' · '+pct+'%',total+' இல் '+(Math.min(done+1,total))+' பதிவேற்றப்படுகிறது · '+pct+'%');
+    };
+    const q0=q.slice(); render();
+    const worker=async()=>{
+      while(q.length){
+        const it=q.shift(); setState(it,'busy'); it.frac=0; it.bar.style.width='0';
+        try{
+          const p=await prepPhoto(it.file);
+          const res=await apiUpload({action:'photo',uploader:who,mime:p.mime,data:p.data,website:''},f=>{ it.frac=f; it.bar.style.width=(f*100)+'%'; render(); });
+          if(res.demo) upDemo=true; else if(!res.ok) throw new Error(res.error||'failed');
+          setState(it,'ok'); ok++;
+        }catch(e){ setState(it,'fail'); }
+        it.frac=1; done++; render();
+      }
+    };
+    await Promise.all([worker(),worker()]);
+    upBusy=false;
+    const failed=total-ok;
+    if(failed){ txt.className='uptxt err'; txt.textContent=T(failed+(failed===1?' photo':' photos')+' could not be uploaded. Press Upload to try again.',failed+' படங்களைப் பதிவேற்ற இயலவில்லை. மீண்டும் முயல பதிவேற்று என்பதை அழுத்தவும்.'); }
+    else if(upDemo){ txt.className='uptxt err'; txt.textContent=T('Demo mode: Google Drive is not connected yet, so nothing was saved.','சோதனை நிலை: கூகுள் டிரைவ் இன்னும் இணைக்கப்படவில்லை, எதுவும் சேமிக்கப்படவில்லை.'); }
+    else{
+      txt.textContent=T('Thank you! '+ok+(ok===1?' photo has':' photos have')+' been added to the family album.','நன்றி! '+ok+' படங்கள் குடும்ப ஆல்பத்தில் சேர்க்கப்பட்டன.');
+      if(siteOn){ const r=$('#photoCard').getBoundingClientRect(); burst.fire(r.left+r.width/2,Math.max(80,r.top+160),44,1.2); bell(880,0,.07,2.6); }
+    }
+    refreshUploadBtn();
+  });
+  refreshUploadBtn();
+}
+
+
+initPhotos();
+})();
+</script>
+</body>
+</html>
