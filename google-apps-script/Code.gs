@@ -1,48 +1,34 @@
 /**
  * Varsha & Chellam wedding site: backend (Google Apps Script web app)
  *
- * What it does
- *   - "rsvp"  : appends one row per RSVP to your Google Sheet
- *   - "photo" : saves each guest photo into your Google Drive folder
- *   - "list"  : returns the RSVP rows to the admin page, only with the admin password
+ * One Google Sheet, three tabs, all filled automatically:
+ *   - FIRST tab        : the RSVP form (the tab your RSVPs already go to; it is not renamed)
+ *   - "YouTube Live"   : guests asking for the YouTube live link (name, phone, email)
+ *   - "Upload Photos"  : guests asking for the photo upload link (name, phone, email)
+ * The admin page (/admin) reads the RSVP tab with the admin password, and can clear it.
  *
- * One-time setup (about 5 minutes)
- *   1. Open your Google Sheet. Copy its ID from the URL:
- *        https://docs.google.com/spreadsheets/d/<THIS_PART>/edit
- *   2. Open your Drive folder for photos. Copy its ID from the URL:
- *        https://drive.google.com/drive/folders/<THIS_PART>
- *   3. Go to script.google.com > New project. Paste this whole file, and fill in the two IDs below.
- *   4. Project Settings (gear icon) > Script properties > Add property
- *        ADMIN_KEY = a password only you know     (this protects the RSVP list)
- *   5. Pick the function "setup" in the toolbar and press Run. Approve the permissions
- *      (Google shows an "unverified app" screen for your own script; Advanced > Go to project).
- *      The log should say "Setup OK".
- *   6. Deploy > New deployment > type "Web app"
- *        Execute as: Me          Who has access: Anyone
- *      Press Deploy and copy the Web app URL (ends in /exec).
- *   7. Paste that URL into SCRIPT_URL in config.js on the website. Done.
+ * Setup (about 3 minutes). Your project already exists, so this only updates it:
+ *   1. Go to script.google.com > open your wedding project. Replace ALL the code with this file.
+ *   2. Project Settings (gear icon) > Script properties: ADMIN_KEY must still be set to your password.
+ *   3. Pick the function "setup" in the toolbar and press Run. Approve the permissions if asked.
+ *      The log should say "Setup OK" and the two new tabs now exist in your sheet.
+ *   4. Deploy > Manage deployments > pencil (edit) > Version: New version > Deploy.
+ *      The web app URL stays the same, so nothing changes in config.js.
  *
- * If you change this file later: Deploy > Manage deployments > edit (pencil) > Version: New version.
- *
- * The sheet and folder stay private. The script runs as you, and the public can only
- * add RSVPs and photos. They cannot read or delete anything. The RSVP list is readable
- * only with ADMIN_KEY, through admin.html.
+ * The sheet stays private. The script runs as you, and the public can only add rows.
+ * Nobody can read or delete anything without ADMIN_KEY.
  */
 
 const SHEET_ID = '1nsryr4OJdMiHY2SsBhxc5V-ci9dTbxoEPM13In_YJRk';
-const DRIVE_FOLDER_ID = '1goi613i4MlBu9TyKvfgKymkrNwAsyYCi';
-const RSVP_TAB = '';   // leave empty to use the FIRST tab of the sheet, or put a tab name here
 
-const HEADERS = ['Timestamp (IST)', 'Name', 'Phone', 'Email', 'Attending', 'Events', 'Guests', 'Message', 'Language'];
-const TEXT_COLS = [1, 2, 3, 4, 5, 6, 8, 9];       // 1-based columns stored as plain text (keeps +91 and stops formulas)
-const MAX_PHOTO_BYTES = 12 * 1024 * 1024;
-const PHOTO_TYPES = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/heic': 'heic', 'image/heif': 'heif', 'image/gif': 'gif' };
+const TABS = {
+  rsvp:     { name: '',              headers: ['Timestamp (IST)', 'Name', 'Phone', 'Email', 'Attending', 'Events', 'Guests', 'Message', 'Language'], text: [1, 2, 3, 4, 5, 6, 8, 9] },
+  livereq:  { name: 'YouTube Live',  headers: ['Timestamp (IST)', 'Name', 'Phone', 'Email', 'Language'], text: [1, 2, 3, 4, 5] },
+  photoreq: { name: 'Upload Photos', headers: ['Timestamp (IST)', 'Name', 'Phone', 'Email', 'Language'], text: [1, 2, 3, 4, 5] }
+};
 const EVENTS = ['Reception (31 Oct)', 'Muhurtham (1 Nov)'];
 
-function doGet(e) {
-  if (e && e.parameter && e.parameter.action === 'settings') {   // public: the site reads the live link from here
-    return out_({ ok: true, youtubeUrl: PropertiesService.getScriptProperties().getProperty('YOUTUBE_URL') || '' });
-  }
+function doGet() {
   return out_({ ok: true, service: 'wedding-backend' });
 }
 
@@ -51,12 +37,12 @@ function doPost(e) {
     const body = JSON.parse(e.postData.contents);
     if (body.website) return out_({ ok: true });            // honeypot field: real guests leave it empty
     switch (body.action) {
-      case 'rsvp':  return out_(saveRsvp_(body));
-      case 'photo': return out_(savePhoto_(body));
-      case 'list':  return out_(listRsvps_(body));
-      case 'clear': return out_(clearRsvps_(body));
-      case 'setYoutube': return out_(setYoutube_(body));
-      default:      return out_({ ok: false, error: 'Unknown action' });
+      case 'rsvp':     return out_(saveRsvp_(body));
+      case 'livereq':  return out_(saveRequest_('livereq', body));
+      case 'photoreq': return out_(saveRequest_('photoreq', body));
+      case 'list':     return out_(listRsvps_(body));
+      case 'clear':    return out_(clearRsvps_(body));
+      default:         return out_({ ok: false, error: 'Unknown action' });
     }
   } catch (err) {
     console.error(err);
@@ -73,58 +59,57 @@ function saveRsvp_(b) {
   const guests = attending === 'Yes' ? Math.min(Math.max(parseInt(b.guests, 10) || 1, 1), 20) : 0;
   const events = attending === 'Yes' && Array.isArray(b.events)
     ? b.events.filter(function (x) { return EVENTS.indexOf(x) > -1; }).join(', ') : '';
-  const row = [
-    Utilities.formatDate(new Date(), 'Asia/Kolkata', 'yyyy-MM-dd HH:mm:ss'),
-    name, clean_(b.phone, 30), clean_(b.email, 120), attending, events, guests,
+  appendRow_('rsvp', [
+    now_(), name, clean_(b.phone, 30), clean_(b.email, 120), attending, events, guests,
     clean_(b.message, 600), b.lang === 'ta' ? 'Tamil' : 'English'
-  ];
-
-  const lock = LockService.getScriptLock();
-  lock.waitLock(30000);
-  try {
-    const sheet = rsvpSheet_();
-    const r = sheet.getLastRow() + 1;
-    const range = sheet.getRange(r, 1, 1, HEADERS.length);
-    range.setNumberFormats([HEADERS.map(function (_, i) { return TEXT_COLS.indexOf(i + 1) > -1 ? '@' : '0'; })]);
-    range.setValues([row]);
-  } finally {
-    lock.releaseLock();
-  }
+  ]);
   return { ok: true };
 }
 
-function rsvpSheet_() {
+/* ---------- Live-link and photo-link requests: name and phone required, email may be blank ---------- */
+function saveRequest_(kind, b) {
+  const name = clean_(b.name, 100);
+  const phone = clean_(b.phone, 30);
+  if (!name) return { ok: false, error: 'Name is required' };
+  if (phone.replace(/\D/g, '').length < 7) return { ok: false, error: 'A valid phone number is required' };
+  appendRow_(kind, [now_(), name, phone, clean_(b.email, 120), b.lang === 'ta' ? 'Tamil' : 'English']);
+  return { ok: true };
+}
+
+/* ---------- sheet helpers ---------- */
+function now_() {
+  return Utilities.formatDate(new Date(), 'Asia/Kolkata', 'yyyy-MM-dd HH:mm:ss');
+}
+
+function tabSheet_(kind) {
+  const t = TABS[kind];
   const ss = SpreadsheetApp.openById(SHEET_ID);
-  const sheet = RSVP_TAB ? (ss.getSheetByName(RSVP_TAB) || ss.insertSheet(RSVP_TAB)) : ss.getSheets()[0];
+  const sheet = t.name ? (ss.getSheetByName(t.name) || ss.insertSheet(t.name)) : ss.getSheets()[0];
   if (sheet.getLastRow() === 0) {
-    sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold').setBackground('#F6E3BC');
+    sheet.getRange(1, 1, 1, t.headers.length).setValues([t.headers]).setFontWeight('bold').setBackground('#F6E3BC');
     sheet.setFrozenRows(1);
-    sheet.setColumnWidths(1, HEADERS.length, 150);
-    sheet.setColumnWidth(8, 320);
+    sheet.setColumnWidths(1, t.headers.length, 160);
+    if (kind === 'rsvp') sheet.setColumnWidth(8, 320);
   }
   return sheet;
 }
 
-/* ---------- Photos ---------- */
-function savePhoto_(b) {
-  const mime = String(b.mime || '').toLowerCase();
-  const ext = PHOTO_TYPES[mime];
-  if (!ext || !b.data) return { ok: false, error: 'Unsupported file' };
-  const bytes = Utilities.base64Decode(b.data);
-  if (bytes.length > MAX_PHOTO_BYTES) return { ok: false, error: 'File too large' };
-
-  const who = clean_(b.uploader, 60);
-  if (!who) return { ok: false, error: 'Name is required' };
-  const slug = who.replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 24) || 'guest';
-  const stamp = Utilities.formatDate(new Date(), 'Asia/Kolkata', 'yyyyMMdd-HHmmss');
-  const fileName = stamp + '_' + slug + '_' + Math.floor(Math.random() * 9000 + 1000) + '.' + ext;
-
-  const file = DriveApp.getFolderById(DRIVE_FOLDER_ID).createFile(Utilities.newBlob(bytes, mime, fileName));
-  file.setDescription('Uploaded by: ' + who);
-  return { ok: true };
+function appendRow_(kind, row) {
+  const t = TABS[kind];
+  const lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    const sheet = tabSheet_(kind);
+    const r = sheet.getLastRow() + 1;
+    const range = sheet.getRange(r, 1, 1, t.headers.length);
+    range.setNumberFormats([t.headers.map(function (_, i) { return t.text.indexOf(i + 1) > -1 ? '@' : '0'; })]);   // text format keeps +91 and stops formulas
+    range.setValues([row]);
+  } finally {
+    lock.releaseLock();
+  }
 }
 
-/* ---------- Admin: list RSVPs ---------- */
+/* ---------- Admin ---------- */
 function authError_(b) {
   const cache = CacheService.getScriptCache();
   const fails = parseInt(cache.get('admin_fails') || '0', 10);
@@ -143,47 +128,32 @@ function authError_(b) {
 function listRsvps_(b) {
   const bad = authError_(b);
   if (bad) return bad;
-
-  const sheet = rsvpSheet_();
+  const t = TABS.rsvp, sheet = tabSheet_('rsvp');
   const rows = sheet.getLastRow() > 1
-    ? sheet.getRange(2, 1, sheet.getLastRow() - 1, HEADERS.length).getDisplayValues() : [];
+    ? sheet.getRange(2, 1, sheet.getLastRow() - 1, t.headers.length).getDisplayValues() : [];
   return {
     ok: true,
-    headers: HEADERS,
+    headers: t.headers,
     rows: rows,
-    youtubeUrl: PropertiesService.getScriptProperties().getProperty('YOUTUBE_URL') || '',
     sheetUrl: 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/edit',
-    folderUrl: 'https://drive.google.com/drive/folders/' + DRIVE_FOLDER_ID
+    folderUrl: ''
   };
 }
 
-/* ---------- Admin: delete every RSVP row (the header row stays) ---------- */
+/* delete every RSVP row (the header row stays) */
 function clearRsvps_(b) {
   const bad = authError_(b);
   if (bad) return bad;
   const lock = LockService.getScriptLock();
   lock.waitLock(30000);
   try {
-    const sheet = rsvpSheet_();
+    const sheet = tabSheet_('rsvp');
     const n = sheet.getLastRow() - 1;
     if (n > 0) sheet.deleteRows(2, n);
     return { ok: true, deleted: Math.max(n, 0) };
   } finally {
     lock.releaseLock();
   }
-}
-
-/* ---------- Admin: set the YouTube live link shown on the site ---------- */
-function setYoutube_(b) {
-  const bad = authError_(b);
-  if (bad) return bad;
-  const url = clean_(b.url, 300);
-  if (url && !/^https:\/\/(www\.|m\.)?(youtube\.com|youtube-nocookie\.com|youtu\.be)\//i.test(url)) {
-    return { ok: false, error: 'Please paste a youtube.com or youtu.be link.' };
-  }
-  const props = PropertiesService.getScriptProperties();
-  if (url) props.setProperty('YOUTUBE_URL', url); else props.deleteProperty('YOUTUBE_URL');
-  return { ok: true, youtubeUrl: url };
 }
 
 /* ---------- helpers ---------- */
@@ -195,12 +165,11 @@ function out_(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
 }
 
-/** Run this once from the editor to authorise access and check both IDs. */
+/** Run this once from the editor: authorises access and creates the two new tabs. */
 function setup() {
-  const sheet = rsvpSheet_();
-  const folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
   if (!PropertiesService.getScriptProperties().getProperty('ADMIN_KEY')) {
-    throw new Error('Add the ADMIN_KEY script property first (step 4).');
+    throw new Error('Add the ADMIN_KEY script property first (Project Settings > Script properties).');
   }
-  console.log('Setup OK. Sheet tab "' + sheet.getName() + '", Drive folder "' + folder.getName() + '".');
+  const names = Object.keys(TABS).map(function (k) { return tabSheet_(k).getName(); });
+  console.log('Setup OK. Tabs ready: ' + names.join(', '));
 }

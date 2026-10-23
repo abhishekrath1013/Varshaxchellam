@@ -36,13 +36,6 @@ input:focus{outline:none;border-color:#F39A1E;box-shadow:0 0 0 4px rgba(243,154,
 #app{display:none}
 .top{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:flex-end;margin-bottom:22px}
 .acts{display:flex;flex-wrap:wrap;gap:.6rem}
-.live{padding:16px 18px;margin-bottom:18px}
-.live label{display:block;font-weight:700;color:var(--red);margin-bottom:.4rem}
-.live .hint{font-weight:400;color:var(--muted);font-size:.88rem;margin-left:.4em}
-.liverow{display:flex;gap:.6rem;flex-wrap:wrap}
-.liverow input{flex:1 1 280px;padding:.7em 1.1em;border-radius:999px;border:1.5px solid var(--red);background:#fff;font:inherit;color:var(--text)}
-.ytmsg{min-height:1.4em;margin-top:.5rem;font-size:.92rem;color:#1f6b2c}
-.ytmsg.err{color:#B3261E}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
 .stat{padding:16px 18px}
 .stat b{display:block;font-size:2rem;color:var(--red);line-height:1.1}
@@ -85,19 +78,9 @@ tr:hover td{background:rgba(243,154,30,.08)}
         <button class="btn" id="dlCsv" type="button">Download CSV</button>
         <button class="btn" id="refresh" type="button">Refresh</button>
         <a class="btn" id="sheetLink" target="_blank" rel="noopener" href="#">Open Google Sheet</a>
-        <a class="btn" id="folderLink" target="_blank" rel="noopener" href="#">Open photo folder</a>
         <button class="btn" id="logout" type="button">Lock</button>
         <button class="btn danger" id="clearBtn" type="button">Clear all</button>
       </div>
-    </div>
-
-    <div class="card live">
-      <label for="yt">YouTube live link <span class="hint">shown on the website's "Watch It Live" section</span></label>
-      <div class="liverow">
-        <input id="yt" type="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off">
-        <button class="btn solid" id="ytSave" type="button">Save link</button>
-      </div>
-      <div class="ytmsg" id="ytMsg" role="status"></div>
     </div>
 
     <div class="stats">
@@ -145,8 +128,7 @@ function load(){
   return api({action:'list',key:key}).then(function(d){
     if(!d.ok) throw new Error(d.error||'Could not load');
     headers=d.headers; rows=d.rows;
-    $('#yt').value=d.youtubeUrl||'';
-    $('#sheetLink').href=d.sheetUrl; $('#folderLink').href=d.folderUrl;
+    $('#sheetLink').href=d.sheetUrl;
     render();
   });
 }
@@ -161,13 +143,6 @@ $('#loginForm').addEventListener('submit',function(e){
 });
 $('#refresh').addEventListener('click',function(){ var b=this; b.disabled=true; load().catch(function(e){alert(e.message);}).then(function(){b.disabled=false;}); });
 $('#logout').addEventListener('click',lock);
-$('#ytSave').addEventListener('click',function(){
-  var b=this, m=$('#ytMsg'); b.disabled=true; m.className='ytmsg'; m.textContent='';
-  api({action:'setYoutube',key:key,url:$('#yt').value.trim()}).then(function(d){
-    if(!d.ok) throw new Error(d.error||'Could not save');
-    m.textContent=d.youtubeUrl?'Saved. The website now shows this live link.':'Link cleared. The website shows "link coming soon" again.';
-  }).catch(function(e){ m.className='ytmsg err'; m.textContent=e.message; }).then(function(){ b.disabled=false; });
-});
 var modal=$('#modal');
 $('#clearBtn').addEventListener('click',function(){
   $('#mText').textContent='This permanently deletes all '+rows.length+' response'+(rows.length===1?'':'s')+' from the Google Sheet. It cannot be undone. Download the Excel file first if you may need it.';
