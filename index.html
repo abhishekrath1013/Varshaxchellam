@@ -1956,7 +1956,8 @@ function initLive(){
   $('#playBtn').addEventListener('click',()=>{
     if(!real){ toast(T('The live link will be shared soon','நேரலை இணைப்பு விரைவில் பகிரப்படும்')); return; }
     const f=document.createElement('iframe');
-    f.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&modestbranding=1';
+    f.referrerPolicy='strict-origin-when-cross-origin';   /* YouTube refuses to play (error 153) when no referrer is sent */
+    f.src='https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0&modestbranding=1&playsinline=1'+(location.protocol.startsWith('http')?'&origin='+encodeURIComponent(location.origin):'');
     f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen'; f.allowFullscreen=true; f.title='Wedding live stream';
     $('#player').appendChild(f); $('#playBtn').remove();
     if(sndBtn.getAttribute('aria-pressed')==='true') sndBtn.click();   /* quiet the temple flute under the stream */
