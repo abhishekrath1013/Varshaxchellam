@@ -512,13 +512,70 @@ section,footer{background:rgba(var(--ovc),var(--veil,.5))}
 .stage{box-shadow:0 30px 60px -30px rgba(90,15,27,.5),0 0 0 6px rgba(250,240,220,.9),0 0 0 7.5px rgba(184,134,31,.55)}
 .player{box-shadow:0 30px 60px -30px rgba(90,15,27,.55),0 0 0 6px rgba(250,240,220,.9),0 0 0 7.5px rgba(184,134,31,.55)}
 .mo{background:#FFFBF1}
-/* flowers in the top corners of every section, peacock feathers on the hero */
-section::before,section::after{content:"";position:absolute;top:0;z-index:0;pointer-events:none;width:clamp(70px,11vw,150px);aspect-ratio:384/559;background:url(images/dc-flowers.webp) no-repeat top left/100% 100%;opacity:.92}
-section::before{left:0}
-section::after{right:0;transform:scaleX(-1)}
-.hx{position:absolute;pointer-events:none;z-index:1;max-width:none}
-.hx.fl{top:62px;width:clamp(56px,7.5vw,104px);height:auto}
-.hx.fl.l{left:0}.hx.fl.r{right:0;transform:scaleX(-1)}
+/* florals only at the top of the home page, placed like the Divine Call page, and they part left and right on scroll */
+.hero{--u:clamp(3.4px,.5vw,7px)}
+.hx{position:absolute;top:0;pointer-events:none;z-index:1;max-width:none;opacity:var(--fo,1);will-change:transform}
+.hx.fl{height:calc(var(--u)*40);width:auto}
+.hx.fl.l{left:0;transform:translate3d(calc(var(--fx,0px)*-1),0,0)}
+.hx.fl.r{right:0;transform:translate3d(var(--fx,0px),0,0) scaleX(-1)}
+.hx.fe{width:calc(var(--u)*19);height:auto}
+.hx.fe.l{left:calc(var(--u)*30);top:calc(var(--u)*-2);transform:translate3d(calc(var(--fx,0px)*-1.25),0,0) rotate(110deg)}
+.hx.fe.r{right:calc(var(--u)*30);top:calc(var(--u)*-2);transform:translate3d(calc(var(--fx,0px)*1.25),0,0) rotate(-110deg)}
+@media(min-width:901px){.hero{padding-top:200px}.hero-text{padding-left:clamp(0px,5vw,72px)}}
+/* photos at full strength: the glow on the cards no longer sits on top of the portraits */
+.person::after{z-index:0}
+.person>*{position:relative;z-index:1}
+.medal.photo img{filter:none;opacity:1}
+/* engagement and mandapam photos become swipeable carousels on phones */
+.dots{display:none}
+@media(max-width:700px){
+  section{padding:clamp(48px,12vw,60px) 0}
+  .sec-head{margin-bottom:26px}
+  .sec-sub{font-size:1.02rem}
+  body{font-size:1.06rem;line-height:1.65}
+  /* hero: smaller picture, florals out at the edges */
+  .hero{padding:104px 0 56px;min-height:0}
+  .hero-art{width:min(190px,50vw)}
+  .count{margin:20px 0}
+  .hx.fl{height:210px}.hx.fl.l{left:-86px}.hx.fl.r{right:-86px}
+  .hx.fe{width:calc(var(--u)*17);top:calc(var(--u)*-0px + 8px)}.hx.fe.l{left:12px}.hx.fe.r{right:12px}
+  /* invitation */
+  .sheet-in{padding:26px 18px}
+  .sheet p{margin:.6rem 0}
+  /* couple */
+  .couple-grid{gap:14px}
+  .person{padding:26px 16px 20px}
+  .couple-grid .person .parents{min-height:0}
+  .pair-art .ringwrap{width:130px}
+  .pair-art{gap:6px}
+  /* families side by side */
+  .fams{grid-template-columns:1fr 1fr;max-width:none;gap:12px}
+  .fam-knot{display:none}
+  .fcard h3{font-size:1rem}
+  .fcard .honor{margin-top:12px;font-size:.92rem}
+  /* celebrations */
+  .timeline{gap:26px}
+  .ev .card{padding:20px 18px}
+  .ev dl{margin:.5rem 0 .9rem}
+  /* swipeable carousels */
+  .mgrid,.mgal{display:flex;grid-template-columns:none;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:-4vw;padding:6px 4vw 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .mgrid::-webkit-scrollbar,.mgal::-webkit-scrollbar{display:none}
+  .mgrid .mo{flex:0 0 78%;scroll-snap-align:center;margin-top:0!important;transform:none}
+  .mgal img{flex:0 0 80%;width:80%;scroll-snap-align:center}
+  .dots{display:flex;justify-content:center;gap:7px;margin-top:6px}
+  .dots i{width:7px;height:7px;border-radius:50%;background:rgba(138,22,32,.28);transition:background .3s,transform .3s}
+  .dots i.on{background:#8A1620;transform:scale(1.35)}
+  /* live, photos, venue */
+  .live-note{margin-top:16px}
+  .photo-grid{gap:18px}
+  .formcard{padding:22px 16px}
+  .drop{padding:20px 12px}
+  .pc-sub{margin-bottom:1rem}
+  .qrface{width:min(100%,200px)}
+  .mpanel{min-height:0;margin-top:20px}
+  .mapbox{min-height:260px}
+  footer{padding:56px 0 64px}
+}
 
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01s!important;animation-iteration-count:1!important;transition-duration:.01s!important;transition-delay:0s!important}
@@ -817,6 +874,7 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
   <div class="thoran" id="hthoran" aria-hidden="true"></div>
   <canvas id="petals" aria-hidden="true"></canvas>
   <img class="hx fl l" src="images/dc-flowers.webp" alt="" aria-hidden="true"><img class="hx fl r" src="images/dc-flowers.webp" alt="" aria-hidden="true">
+  <img class="hx fe l" src="images/dc-feather.webp" alt="" aria-hidden="true"><img class="hx fe r" src="images/dc-feather.webp" alt="" aria-hidden="true">
   <div class="wrap hero-grid">
     <div class="hero-text">
       <div class="sriram"><span class="en">Sri Ramajayam</span><span class="ta">ஸ்ரீராமஜெயம்</span></div>
@@ -2152,6 +2210,16 @@ function initLightbox(){
 }
 
 initLive(); initRsvp(); initPhotos(); initLightbox();
+/* ---- dots under the phone carousels ---- */
+$$('.mgrid,.mgal').forEach(c=>{
+  const items=Array.from(c.children), d=document.createElement('div'); d.className='dots'; d.setAttribute('aria-hidden','true');
+  items.forEach(()=>d.appendChild(document.createElement('i'))); c.after(d);
+  const dots=Array.from(d.children); let q=false;
+  const upd=()=>{ q=false; if(getComputedStyle(c).display!=='flex') return; const mid=c.scrollLeft+c.clientWidth/2; let best=0,bd=1e9;
+    items.forEach((it,i)=>{ const dd=Math.abs(it.offsetLeft+it.offsetWidth/2-mid); if(dd<bd){ bd=dd; best=i; } }); dots.forEach((x,i)=>x.classList.toggle('on',i===best)); };
+  c.addEventListener('scroll',()=>{ if(!q){ q=true; requestAnimationFrame(upd); } },{passive:true}); window.addEventListener('resize',upd); upd();
+});
+
 /* ---- personalised invitation as a PDF ---- */
 const loadScript=src=>new Promise((ok,no)=>{ const s=document.createElement('script'); s.src=src; s.onload=ok; s.onerror=()=>no(new Error('load '+src)); document.head.appendChild(s); });
 function initPdf(){
@@ -2221,7 +2289,8 @@ function initNewAnim(){
 (function(){
   const bg=$('#siteBg'); if(!bg||reduce) return; let q=false;
   const tick=()=>{ q=false; const max=document.documentElement.scrollHeight-innerHeight, p=max>0?Math.min(1,Math.max(0,scrollY/max)):0, travel=Math.max(0,bg.offsetHeight-innerHeight);
-    bg.style.transform='translate3d(-50%,'+(-p*travel).toFixed(1)+'px,0)'; };
+    bg.style.transform='translate3d(-50%,'+(-p*travel).toFixed(1)+'px,0)';
+    const hero=$('.hero'); if(hero){ const t=1-Math.pow(1-Math.min(1,Math.max(0,scrollY/(innerHeight*.75))),3); hero.style.setProperty('--fx',(t*innerWidth*.42).toFixed(1)+'px'); hero.style.setProperty('--fo',(1-t).toFixed(3)); } };
   addEventListener('scroll',()=>{ if(!q){ q=true; requestAnimationFrame(tick); } },{passive:true}); addEventListener('resize',tick); tick();
 })();
 
