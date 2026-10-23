@@ -270,6 +270,7 @@ body[data-lang="ta"] .medal{font-family:var(--f-ta-d);font-style:normal;font-wei
 .pair-art .ringwrap{position:relative;width:clamp(150px,19vw,230px);aspect-ratio:1}
 .pair-art .ringwrap::before{content:"";position:absolute;inset:-14px;border-radius:50%;border:1.5px dashed rgba(240,207,122,.7);animation:spin 28s linear infinite}
 .pair-art .oval{width:100%;height:100%;border-radius:50%;overflow:hidden;padding:6px;background:conic-gradient(from 30deg,#fbe7a8,#a87a25,#f1d58a,#7a5413,#fbe7a8);box-shadow:0 0 80px rgba(243,154,30,.4)}
+.pair-art .oval img.cut{object-fit:contain;object-position:50% 100%;background:radial-gradient(circle at 50% 38%,#FFF4D6,#EBC987 78%);padding-top:6%}
 .pair-art .oval img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .pair-art .weds{font-family:var(--f-disp);font-style:italic;font-weight:600;font-size:2.2rem;color:var(--gold-l);line-height:1.2}
 body[data-lang="ta"] .pair-art .weds{font-family:var(--f-ta-d);font-style:normal;font-weight:700;font-size:1.5rem}
@@ -514,14 +515,14 @@ section,footer{background:rgba(var(--ovc),var(--veil,.5))}
 .mo{background:#FFFBF1}
 /* florals only at the top of the home page, placed like the Divine Call page, and they part left and right on scroll */
 .hero{--u:clamp(3.4px,.5vw,7px)}
-.hx{position:absolute;top:0;pointer-events:none;z-index:1;max-width:none;opacity:var(--fo,1);will-change:transform}
-.hx.fl{height:calc(var(--u)*40);width:auto}
-.hx.fl.l{left:0;transform:translate3d(calc(var(--fx,0px)*-1),0,0)}
-.hx.fl.r{right:0;transform:translate3d(var(--fx,0px),0,0) scaleX(-1)}
-.hx.fe{width:calc(var(--u)*19);height:auto}
-.hx.fe.l{left:calc(var(--u)*30);top:calc(var(--u)*-2);transform:translate3d(calc(var(--fx,0px)*-1.25),0,0) rotate(110deg)}
-.hx.fe.r{right:calc(var(--u)*30);top:calc(var(--u)*-2);transform:translate3d(calc(var(--fx,0px)*1.25),0,0) rotate(-110deg)}
-@media(min-width:901px){.hero{padding-top:200px}.hero-text{padding-left:clamp(0px,5vw,72px)}}
+.hx{position:absolute;top:62px;pointer-events:none;z-index:1;max-width:none;opacity:var(--fo,1);will-change:transform}
+.hx.fl{height:calc(var(--u)*44);width:auto}
+.hx.fl.l{left:0;transform:translate3d(calc(var(--fx,0px)*-1),0,0) scaleX(-1)}
+.hx.fl.r{right:0;transform:translate3d(var(--fx,0px),0,0)}
+.hx.fe{width:calc(var(--u)*17);height:auto}
+.hx.fe.l{left:calc(var(--u)*22);top:calc(62px + var(--u)*1);transform:translate3d(calc(var(--fx,0px)*-1.25),0,0) rotate(110deg)}
+.hx.fe.r{right:calc(var(--u)*22);top:calc(62px + var(--u)*1);transform:translate3d(calc(var(--fx,0px)*1.25),0,0) rotate(-110deg)}
+@media(min-width:901px){.hero{padding-top:270px}.hero-text{padding-left:clamp(0px,3vw,44px)}}
 /* photos at full strength: the glow on the cards no longer sits on top of the portraits */
 .person::after{z-index:0}
 .person>*{position:relative;z-index:1}
@@ -537,8 +538,8 @@ section,footer{background:rgba(var(--ovc),var(--veil,.5))}
   .hero{padding:104px 0 56px;min-height:0}
   .hero-art{width:min(190px,50vw)}
   .count{margin:20px 0}
-  .hx.fl{height:210px}.hx.fl.l{left:-86px}.hx.fl.r{right:-86px}
-  .hx.fe{width:calc(var(--u)*17);top:calc(var(--u)*-0px + 8px)}.hx.fe.l{left:12px}.hx.fe.r{right:12px}
+  .hx.fl{height:210px}.hx.fl.l{left:-4px}.hx.fl.r{right:-4px}
+  .hx.fe{width:calc(var(--u)*17);top:72px}.hx.fe.l{left:12px}.hx.fe.r{right:12px}
   /* invitation */
   .sheet-in{padding:26px 18px}
   .sheet p{margin:.6rem 0}
@@ -938,12 +939,12 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
       </div>
       <div class="sloka ta">
         <p class="lead">ஸ்ரீ: &nbsp; ஸ்ரீராமஜெயம்</p>
-        <p>ஸ்ரீ லக்ஷ்மிந்ருஸிம்ஹ பரப்ரஹ்மணே நம: ஸ்ரீ பூமிதேவீ ஸமேத ஸ்ரீ ஸ்ரீநிவாஸ (ஸ்ரீ ஒப்பிலியப்பன்) பரப்ரஹ்மணே நம:</p>
-        <p>ஸ்ரீ வகுளபூஷண மஹாகுரவே நம:</p>
+        <p>ஸ்ரீ லக்ஷ்மிந்ருஸிம்ஹ பரப்ரஹ்மணே நமஹ: ஸ்ரீ பூமிதேவீ ஸமேத ஸ்ரீ ஸ்ரீநிவாஸ (ஸ்ரீ ஒப்பிலியப்பன்) பரப்ரஹ்மணே நமஹ:</p>
+        <p>ஸ்ரீ வகுளபூஷண மஹாகுரவே நமஹ:</p>
         <svg class="sep" viewBox="0 0 320 34" aria-hidden="true"><use href="#lotus"/></svg>
-        <p>ஸ்ரீமதே ராமாநுஜாய நம: ஸ்ரீமதே நிகமாந்த மஹாதேசிகாய நம: ஸ்ரீமதாதிவண்சடகோப யதீந்த்ர மஹாதேசிகாய நம:</p>
-        <p>ஸ்ரீமதே ஸ்ரீ லக்ஷ்மிந்ருஸிம்ஹ திவ்யபாதுகா ஸேவக ஸ்ரீவண்சடகோப ஸ்ரீ நாராயண யதீந்த்ர மஹாதேசிகாய நம:</p>
-        <p>ஸ்ரீமதே ஸ்ரீவண்சடகோப ஸ்ரீ ரங்கநாத யதீந்த்ர மஹாதேசிகாய நம:</p>
+        <p>ஸ்ரீமதே ராமாநுஜாய நமஹ: ஸ்ரீமதே நிகமாந்த மஹாதேசிகாய நமஹ: ஸ்ரீமதாதிவண்சடகோப யதீந்த்ர மஹாதேசிகாய நமஹ:</p>
+        <p>ஸ்ரீமதே ஸ்ரீ லக்ஷ்மிந்ருஸிம்ஹ திவ்யபாதுகா ஸேவக ஸ்ரீவண்சடகோப ஸ்ரீ நாராயண யதீந்த்ர மஹாதேசிகாய நமஹ:</p>
+        <p>ஸ்ரீமதே ஸ்ரீவண்சடகோப ஸ்ரீ ரங்கநாத யதீந்த்ர மஹாதேசிகாய நமஹ:</p>
       </div>
     </div>
   </div>
@@ -1045,7 +1046,7 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
       </article>
 
       <div class="pair-art">
-        <div class="ringwrap"><div class="oval"><img src="images/couple-oval.jpg" width="520" height="481" alt="Varsha and Chellam Srinivasan together"></div></div>
+        <div class="ringwrap"><div class="oval"><img class="cut" src="images/couple-cutout.webp" width="532" height="488" alt="Varsha and Chellam Srinivasan together"></div></div>
         <div class="weds"><span class="en">weds</span><span class="ta">மணம்</span></div>
       </div>
 
