@@ -266,7 +266,7 @@ body[data-lang="ta"] .medal{font-family:var(--f-ta-d);font-style:normal;font-wei
 .person summary::-webkit-details-marker{display:none}
 .person summary:hover,.person details[open] summary{background:var(--ac);color:#4A0D14}
 .person details p{margin-top:1rem;font-size:1.05rem;color:var(--fg2);text-align:left}
-.pair-art{align-self:center;display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:30px}
+.pair-art{align-self:center;display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:0}
 .pair-art .ringwrap{position:relative;width:clamp(150px,19vw,230px);aspect-ratio:1}
 .pair-art .ringwrap::before{content:"";position:absolute;inset:-14px;border-radius:50%;border:1.5px dashed rgba(240,207,122,.7);animation:spin 28s linear infinite}
 .pair-art .oval{width:100%;height:100%;border-radius:50%;overflow:hidden;padding:6px;background:conic-gradient(from 30deg,#fbe7a8,#a87a25,#f1d58a,#7a5413,#fbe7a8);box-shadow:0 0 80px rgba(243,154,30,.4)}
@@ -1046,8 +1046,7 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
       </article>
 
       <div class="pair-art">
-        <div class="ringwrap"><div class="oval"><img class="cut" src="images/couple-cutout.webp" width="532" height="488" alt="Varsha and Chellam Srinivasan together"></div></div>
-        <div class="weds"><span class="en">weds</span><span class="ta">மணம்</span></div>
+                <div class="weds"><span class="en">weds</span><span class="ta">மணம்</span></div>
       </div>
 
       <article class="person">
@@ -1899,7 +1898,6 @@ function initSections(){
   const grid=$('#couple .couple-grid'), ps=$$('#couple .person');
   gsap.from(ps[0],{x:mobile?0:-150,y:mobile?60:0,rotate:mobile?0:-5,opacity:0,duration:1.4,ease:'power3.out',scrollTrigger:once(grid,'top 82%')});
   gsap.from(ps[1],{x:mobile?0:150,y:mobile?60:0,rotate:mobile?0:5,opacity:0,duration:1.4,ease:'power3.out',scrollTrigger:once(grid,'top 82%')});
-  gsap.from('.pair-art .ringwrap',{scale:.15,rotate:-140,opacity:0,duration:1.6,ease:'back.out(1.5)',scrollTrigger:once(grid,'top 82%')});
   gsap.from('.pair-art .weds',{y:34,opacity:0,duration:1,delay:.8,scrollTrigger:once(grid,'top 82%')});
 
   /* celebrations timeline */
