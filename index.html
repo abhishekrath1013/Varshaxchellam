@@ -492,6 +492,34 @@ body[data-lang="ta"] .pcap b{font-family:var(--f-ta-d)}
 .up-acts{display:flex;gap:.8rem;flex-wrap:wrap}
 .up-acts .btn.solid{flex:1 1 220px;width:auto}
 
+/* ================= one common look: the same parchment-and-temple background behind every section ================= */
+body{background:#EAD8BC}
+.site-bg{position:fixed;left:50%;top:0;z-index:-1;height:max(125vw,140vh);width:max(100vw,112vh);pointer-events:none;will-change:transform;transform:translate3d(-50%,0,0)}
+.site-bg img{width:100%;height:100%;display:block}
+.scal,.bgphoto{display:none!important}
+.t-ivory,.t-sandal,.t-blush,.t-kumkum,.t-teal{--bg:#F1DEB9;--ovc:250,240,220;--fg:#3A1015;--fg2:#6A3B34;--hd:#8A1620;--ac:#B8861F;--ln:rgba(138,22,32,.24);--card:rgba(255,251,241,.8);--btn-bg:linear-gradient(180deg,#A8242C,#7B1118);--btn-fg:#FFF3D6;--shadow:rgba(90,15,27,.35)}
+section,footer{background:rgba(var(--ovc),var(--veil,.5))}
+.t-sandal,.t-teal{--veil:.62}
+.hero{background:radial-gradient(60% 55% at 74% 42%,rgba(243,154,30,.2),transparent 70%),radial-gradient(40% 30% at 50% 0,rgba(255,255,255,.4),transparent 70%)}
+.pname{color:var(--hd)}
+.pair-art .weds{color:var(--hd)}
+.person{background:var(--card)}
+.person::after{background:radial-gradient(circle at var(--gx,50%) var(--gy,0%),rgba(255,236,170,.35),transparent 55%)}
+.person summary:hover,.person details[open] summary{color:#fff}
+.mpanel{background:var(--card)}
+.mono{color:var(--hd)}
+.bless-mandala{color:#B8861F;opacity:.1}
+.stage{box-shadow:0 30px 60px -30px rgba(90,15,27,.5),0 0 0 6px rgba(250,240,220,.9),0 0 0 7.5px rgba(184,134,31,.55)}
+.player{box-shadow:0 30px 60px -30px rgba(90,15,27,.55),0 0 0 6px rgba(250,240,220,.9),0 0 0 7.5px rgba(184,134,31,.55)}
+.mo{background:#FFFBF1}
+/* flowers in the top corners of every section, peacock feathers on the hero */
+section::before,section::after{content:"";position:absolute;top:0;z-index:0;pointer-events:none;width:clamp(70px,11vw,150px);aspect-ratio:384/559;background:url(images/dc-flowers.webp) no-repeat top left/100% 100%;opacity:.92}
+section::before{left:0}
+section::after{right:0;transform:scaleX(-1)}
+.hx{position:absolute;pointer-events:none;z-index:1;max-width:none}
+.hx.fl{top:62px;width:clamp(56px,7.5vw,104px);height:auto}
+.hx.fl.l{left:0}.hx.fl.r{right:0;transform:scaleX(-1)}
+
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01s!important;animation-iteration-count:1!important;transition-duration:.01s!important;transition-delay:0s!important}
   html{scroll-behavior:auto!important}
@@ -601,6 +629,7 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
 </style>
 </head>
 <body data-lang="en" class="locked">
+<div class="site-bg" id="siteBg" aria-hidden="true"><img src="images/site-bg.jpg" alt="" width="1500" height="1875"></div>
 
 <!-- ====== reusable SVG art ====== -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -787,6 +816,7 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
   <div class="kolam" aria-hidden="true"></div>
   <div class="thoran" id="hthoran" aria-hidden="true"></div>
   <canvas id="petals" aria-hidden="true"></canvas>
+  <img class="hx fl l" src="images/dc-flowers.webp" alt="" aria-hidden="true"><img class="hx fl r" src="images/dc-flowers.webp" alt="" aria-hidden="true">
   <div class="wrap hero-grid">
     <div class="hero-text">
       <div class="sriram"><span class="en">Sri Ramajayam</span><span class="ta">ஸ்ரீராமஜெயம்</span></div>
@@ -829,7 +859,6 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
 
 <!-- ====== BLESSINGS ====== -->
 <section class="bless has-bg t-kumkum" id="blessings">
-  <div class="bgphoto" style="--pos:center 35%;--ov:.88" data-src="https://images.unsplash.com/photo-1722404353053-7c99652ec9f0?auto=format&fit=crop&w=1800&q=80"></div>
   <div class="bless-mandala" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#mandala"/></svg></div>
   <div class="bless-pin">
   <div class="wrap">
@@ -842,21 +871,21 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
       <svg class="corner bl"><use href="#corner"/></svg><svg class="corner br"><use href="#corner"/></svg>
       <div class="sloka en">
         <p class="lead">Sri Ramajayam</p>
-        <p>Sri Lakshmi Nrusimha Parabrahmane Namah. Sri Bhoomidevi Sametha Sri Srinivasa (Sri Oppiliappan) Parabrahmane Namah.</p>
-        <p>Sri Vakulabhushana Mahagurave Namah.</p>
+        <p>Sri Lakshminrusimha Parabrahmane Namaha: Sri Bhoomidevi Sametha Sri Srinivasa (Sri Oppiliyappan) Parabrahmane Namaha:</p>
+        <p>Sri Vakulabhooshana Mahaguravae Namaha:</p>
         <svg class="sep" viewBox="0 0 320 34" aria-hidden="true"><use href="#lotus"/></svg>
-        <p>Srimate Ramanujaya Namah. Srimate Nigamanta Mahadesikaya Namah. Srimad Adivan Satakopa Yatindra Mahadesikaya Namah.</p>
-        <p>Srimate Sri Lakshmi Nrusimha Divya Paduka Sevaka Srivan Satakopa Sri Narayana Yatindra Mahadesikaya Namah.</p>
-        <p>Srimate Srivan Satakopa Sri Ranganatha Yatindra Mahadesikaya Namah.</p>
+        <p>Srimathe Ramanujaya Namaha: Srimathe Nigamantha Mahadesikaya Namaha: Srimathadhivanshatakopa Yatheendra Mahadesikaya Namaha:</p>
+        <p>Srimathe Sri Lakshminrusimha Divyapaaduka Sevaka Srivanshatakopa Sri Narayana Yatheendra Mahadesikaya Namaha:</p>
+        <p>Srimathe Srivanshatakopa Sri Ranganatha Yatheendra Mahadesikaya Namaha:</p>
       </div>
       <div class="sloka ta">
         <p class="lead">ஸ்ரீ: &nbsp; ஸ்ரீராமஜெயம்</p>
-        <p>ஸ்ரீ லக்ஷ்மீ ந்ருஸிம்ஹ பரப்ரஹ்மணே நம: ஸ்ரீ பூமிதேவீ ஸமேத ஸ்ரீ ஸ்ரீநிவாஸ (ஸ்ரீ ஒப்பிலியப்பன்) பரப்ரஹ்மணே நம:</p>
+        <p>ஸ்ரீ லக்ஷ்மிந்ருஸிம்ஹ பரப்ரஹ்மணே நம: ஸ்ரீ பூமிதேவீ ஸமேத ஸ்ரீ ஸ்ரீநிவாஸ (ஸ்ரீ ஒப்பிலியப்பன்) பரப்ரஹ்மணே நம:</p>
         <p>ஸ்ரீ வகுளபூஷண மஹாகுரவே நம:</p>
         <svg class="sep" viewBox="0 0 320 34" aria-hidden="true"><use href="#lotus"/></svg>
-        <p>ஸ்ரீமதே ராமாநுஜாய நம: ஸ்ரீமதே நிகமாந்த மஹாதேசிகாய நம: ஸ்ரீமத் ஆதிவண் சடகோப யதீந்த்ர மஹாதேசிகாய நம:</p>
-        <p>ஸ்ரீமதே ஸ்ரீ லக்ஷ்மீ ந்ருஸிம்ஹ திவ்ய பாதுகா ஸேவக ஸ்ரீவண் சடகோப ஸ்ரீ நாராயண யதீந்த்ர மஹாதேசிகாய நம:</p>
-        <p>ஸ்ரீமதே ஸ்ரீவண் சடகோப ஸ்ரீ ரங்கநாத யதீந்த்ர மஹாதேசிகாய நம:</p>
+        <p>ஸ்ரீமதே ராமாநுஜாய நம: ஸ்ரீமதே நிகமாந்த மஹாதேசிகாய நம: ஸ்ரீமதாதிவண்சடகோப யதீந்த்ர மஹாதேசிகாய நம:</p>
+        <p>ஸ்ரீமதே ஸ்ரீ லக்ஷ்மிந்ருஸிம்ஹ திவ்யபாதுகா ஸேவக ஸ்ரீவண்சடகோப ஸ்ரீ நாராயண யதீந்த்ர மஹாதேசிகாய நம:</p>
+        <p>ஸ்ரீமதே ஸ்ரீவண்சடகோப ஸ்ரீ ரங்கநாத யதீந்த்ர மஹாதேசிகாய நம:</p>
       </div>
     </div>
   </div>
@@ -1031,7 +1060,6 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
 <!-- ====== EVENTS ====== -->
 <section class="events has-bg t-sandal" id="events">
   <i class="scal" style="--prev:#5A0F1B"></i>
-  <div class="bgphoto" style="--pos:center 40%;--ov:.82" data-src="images/bg-events.jpg"></div>
   <div class="wrap">
     <div class="sec-head">
       <h2 class="sec-title"><span class="en">The Celebrations</span><span class="ta">திருமண நிகழ்ச்சிகள்</span></h2>
@@ -1261,7 +1289,6 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
 <!-- ====== VENUE ====== -->
 <section id="venue" class="has-bg t-ivory">
   <i class="scal" style="--prev:#5A0F1B"></i>
-  <div class="bgphoto" style="--pos:center 30%;--ov:.8" data-src="images/bg-venue.jpg"></div>
   <div class="wrap">
     <div class="sec-head">
       <h2 class="sec-title"><span class="en">The Venue</span><span class="ta">திருமண இடம்</span></h2>
@@ -1292,7 +1319,6 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
 
 <footer class="has-bg t-teal">
   <i class="scal" style="--prev:#FFF6E2"></i>
-  <div class="bgphoto" style="--pos:center 40%;--ov:.86" data-src="https://images.unsplash.com/photo-1660280037297-a3b5e79a3d20?auto=format&fit=crop&w=1800&q=80"></div>
   <div class="wrap">
     <div class="mono">V<em>&amp;</em>C</div>
     <svg class="divider" viewBox="0 0 320 34" aria-hidden="true"><use href="#lotus"/></svg>
@@ -2190,6 +2216,14 @@ function initNewAnim(){
   gsap.from($$('#findCard .qrface, #findCard .qr-open, #findCard .disclaimer'),{y:30,opacity:0,duration:.9,stagger:.12,ease:'power3.out',clearProps:'opacity,transform',scrollTrigger:once('#findCard','top 80%')});
   gsap.from($$('#photoCard .fld, #drop'),{y:30,opacity:0,duration:.9,stagger:.12,ease:'power3.out',clearProps:'opacity,transform',scrollTrigger:once('#photoCard','top 80%')});
 }
+
+/* ---------- common background: travels top to bottom of its picture as the page scrolls ---------- */
+(function(){
+  const bg=$('#siteBg'); if(!bg||reduce) return; let q=false;
+  const tick=()=>{ q=false; const max=document.documentElement.scrollHeight-innerHeight, p=max>0?Math.min(1,Math.max(0,scrollY/max)):0, travel=Math.max(0,bg.offsetHeight-innerHeight);
+    bg.style.transform='translate3d(-50%,'+(-p*travel).toFixed(1)+'px,0)'; };
+  addEventListener('scroll',()=>{ if(!q){ q=true; requestAnimationFrame(tick); } },{passive:true}); addEventListener('resize',tick); tick();
+})();
 
 /* ---------- stock photos: load when available, keep the embedded versions otherwise ---------- */
 $$('.bgphoto').forEach(el=>{ const im=new Image(); im.onload=()=>{ el.style.backgroundImage='url("'+el.dataset.src+'")'; el.classList.add('on'); }; im.src=el.dataset.src; });
