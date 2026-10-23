@@ -2200,6 +2200,9 @@ setLang('en');
 /* coming back from another page of the site (e.g. Divine Call): skip the temple doors and keep the guest's name and language */
 (function(){
   let s=null; try{ s=JSON.parse(sessionStorage.getItem('wedding.entered')||'null'); }catch(e){}
+  /* a refresh starts over at the temple doors; only coming back from another page skips them */
+  const nav=performance.getEntriesByType&&performance.getEntriesByType('navigation')[0];
+  if(nav&&nav.type==='reload'){ try{ sessionStorage.removeItem('wedding.entered'); }catch(e){} return; }
   if(!s) return;
   setLang(s.lang==='ta'?'ta':'en');
   if(s.name){ $('#guest').value=s.name; $$('.guest-name').forEach(e=>{ e.textContent=s.name; }); }
