@@ -73,6 +73,36 @@ body[data-lang="ta"] h1,body[data-lang="ta"] h2,body[data-lang="ta"] h3,body[dat
 .sec-title{font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.2;color:var(--hd)}
 .sec-title .w{display:inline-block;white-space:nowrap;overflow:hidden;vertical-align:bottom;padding:.12em .03em .18em;margin:-.12em 0 -.18em}
 .sec-title .c{display:inline-block;will-change:transform}
+/* ceremony guide */
+.g-intro{max-width:46em;margin:0 auto clamp(28px,4vw,48px);text-align:center}
+.g-kick{font-size:.86rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ac);font-weight:600}
+.g-dates{margin:.4rem 0 1rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--hd)}
+.g-trad{margin-top:1.4rem}
+.g-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:clamp(12px,2vw,24px)}
+.g-tile{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.25rem;padding:10px 10px 16px;font:inherit;color:inherit;cursor:pointer;background:var(--card);border:1px solid var(--ln);border-radius:14px;box-shadow:0 20px 40px -28px var(--shadow);transition:transform .3s,box-shadow .3s}
+.g-tile:hover{transform:translateY(-4px);box-shadow:0 26px 46px -26px var(--shadow)}
+.g-th{display:block;width:100%;aspect-ratio:1;border-radius:10px;overflow:hidden;border:1.5px solid #D7A53A;margin-bottom:.5rem}
+.g-th img{width:100%;height:100%;object-fit:cover;display:block}
+.g-no{font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ac);font-weight:600}
+.g-tt{font-weight:600;font-size:1.12rem;line-height:1.25;color:var(--hd)}
+.g-ts{font-style:italic;font-size:.9rem;line-height:1.3;color:#0A6A7C}
+.g-modal{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:14px;background:rgba(40,6,12,.72);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.g-modal[hidden]{display:none}
+.g-card{position:relative;width:min(560px,100%);max-height:94svh;overflow:auto;padding:16px 16px 14px;background:#FFFBF1;border:1px solid var(--ln);border-radius:16px;box-shadow:0 30px 70px -20px rgba(0,0,0,.6);color:var(--fg)}
+.g-mpic{border-radius:12px;overflow:hidden;border:1.5px solid #D7A53A;aspect-ratio:1;max-height:42svh;margin:0 auto}
+.g-mpic img{width:100%;height:100%;object-fit:cover;display:block}
+.g-txt{text-align:center;padding:12px 6px 4px}
+.g-txt h3{font-size:clamp(1.5rem,3vw,2rem);line-height:1.2;color:var(--hd);margin-top:.25rem}
+.g-sb{font-style:italic;font-weight:600;font-size:1.1rem;color:#0A6A7C;margin-top:.25rem;line-height:1.35}
+.g-dt{margin-top:.6rem;font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--hd)}
+.g-bd{margin-top:.7rem;font-size:1.02rem;line-height:1.7}
+.g-x{position:absolute;top:8px;right:10px;z-index:2;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,251,241,.92);color:var(--hd);font-size:1.6rem;line-height:1;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.g-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--ln);font-size:.9rem;color:var(--fg2)}
+.g-nav button{padding:.5em 1.1em;border-radius:999px;border:1.5px solid var(--hd);background:transparent;color:var(--hd);font:inherit;font-weight:500;cursor:pointer}
+.g-nav button:hover{background:var(--hd);color:#FFF3D6}
+@media(max-width:520px){.g-list{grid-template-columns:repeat(2,minmax(0,1fr))}.g-tt{font-size:1rem}.g-ts{display:none}}
+.g-fin{text-align:center;margin-top:clamp(34px,5vw,60px);font-style:italic;font-size:1.25rem;color:var(--hd)}
+.g-fin .g-kick{display:block;margin-top:.8rem;font-style:normal}
 .sec-sub{max-width:34em;margin:1rem auto 0;color:var(--fg2);font-size:1.15rem}
 .divider{width:min(320px,70vw);height:34px;margin:1rem auto 0;color:var(--ac)}
 
@@ -857,6 +887,7 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
     <li><a href="#patrika" data-en="Invitation" data-ta="அழைப்பிதழ்"></a></li>
     <li><a href="#couple" data-en="The Couple" data-ta="மணமக்கள்"></a></li>
     <li><a href="#events" data-en="Celebrations" data-ta="நிகழ்ச்சிகள்"></a></li>
+    <li><a href="#guide" data-en="Ceremony Guide" data-ta="திருமண வழிகாட்டி"></a></li>
     <li><a href="#live" data-en="Live" data-ta="நேரலை"></a></li>
     <li hidden><a href="#rsvp" data-en="RSVP" data-ta="வருகை"></a></li>
     <li><a href="#photos" data-en="Photos" data-ta="படங்கள்"></a></li>
@@ -1165,6 +1196,154 @@ body[data-lang="ta"] .seal b{font-family:var(--f-ta-d);font-size:1.3rem}
         </div>
       </article>
     </div>
+
+  </div>
+</section>
+
+<!-- ====== CEREMONY GUIDE ====== -->
+<section id="guide" class="t-ivory">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="sec-title"><span class="en">Wedding Ceremony Guide</span><span class="ta">திருமண சடங்கு வழிகாட்டி</span></h2>
+      <svg class="divider" viewBox="0 0 320 34" aria-hidden="true"><use href="#lotus"/></svg>
+      <p class="sec-sub" data-rv><span class="en">Two individuals, two families, two cultures &mdash; coming together in love.</span><span class="ta">இரு தனிநபர்கள், இரு குடும்பங்கள், இரு பண்பாடுகள் &mdash; அன்பில் இணைகின்றன.</span></p>
+    </div>
+    <div class="g-intro" data-rv>
+      <p class="g-kick">A Guide to the Wedding Ceremony</p>
+      <p class="g-dates">31 October &ndash; 1 November 2026</p>
+      <p>Welcome to Varsha &amp; Chellam Srinivasan&rsquo;s wedding! Today&rsquo;s celebration follows the traditions of the Tamil Iyengar community of South India. While the rituals span centuries of history, their message is timeless: two individuals, two families, and two cultures coming together in a spirit of love, respect, and partnership. The pages that follow will guide you, moment by moment, through the ceremony as it unfolds.</p>
+      <p class="g-kick g-trad">In the Tamil Iyengar Tradition &middot; South India</p>
+    </div>
+    <div class="g-list">
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-01.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; I</span>
+        <span class="g-tt">Janavasam</span>
+        <span class="g-ts">The Groom’s Grand Welcome</span>
+        <span class="g-full" hidden><span class="g-d">31 October 2026</span><span class="g-b">The festivities begin with Chellam Srinivasan’s arrival, accompanied by family and friends in a joyful procession. Traditionally, this procession served as a public announcement of the wedding and an opportunity for the community to meet the groom. Today, it remains a celebration that marks the coming together of two families.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-02.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; II</span>
+        <span class="g-tt">Nichayathartham</span>
+        <span class="g-ts">A Promise Made</span>
+        <span class="g-full" hidden><span class="g-d">31 October 2026</span><span class="g-b">Before the wedding rites begin, the two families formally affirm their commitment to the marriage. This ceremony celebrates not only the union of Varsha &amp; Chellam Srinivasan, but also the lifelong bond being created between their families.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-03.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; III</span>
+        <span class="g-tt">Kasi Yatrai</span>
+        <span class="g-ts">A Choice Between Two Paths</span>
+        <span class="g-full" hidden><span class="g-d">1 November 2026</span><span class="g-b">Chellam Srinivasan symbolically prepares to leave for Kashi in pursuit of a spiritual life. Varsha’s father, Kumar, gently reminds him that marriage and family are an equally sacred path. Chellam Srinivasan accepts — choosing, with joy, a life beside his bride.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-04.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; IV</span>
+        <span class="g-tt">Maalai Maatral</span>
+        <span class="g-ts">Choosing One Another</span>
+        <span class="g-full" hidden><span class="g-d">1 November 2026</span><span class="g-b">Varsha &amp; Chellam Srinivasan exchange flower garlands, publicly accepting one another as partners. Family members often add a playful touch by lifting the couple out of reach — a light-hearted moment reminding everyone that joy and laughter are an essential part of married life.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-05.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; V</span>
+        <span class="g-tt">Oonjal</span>
+        <span class="g-ts">Life’s Gentle Rhythm</span>
+        <span class="g-full" hidden><span class="g-d">1 November 2026</span><span class="g-b">Seated together on a beautifully decorated swing, Varsha &amp; Chellam Srinivasan are gently rocked as family members sing traditional songs. The swing represents the rhythms of life, reminding the couple that they will navigate every high and low together, supported by the love and wisdom of their families.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-06.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; VI</span>
+        <span class="g-tt">Pidi Sutral</span>
+        <span class="g-ts">Encircled by Blessings</span>
+        <span class="g-full" hidden><span class="g-d">1 November 2026</span><span class="g-b">As the couple sit on the oonjal, the women of the family circle them with auspicious offerings such as coloured rice and lamps. This cherished ritual is believed to ward off negative influences and to invoke blessings for prosperity, happiness, and well-being.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-07.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; VII</span>
+        <span class="g-tt">Sari Gifting</span>
+        <span class="g-ts">A Warm Welcome</span>
+        <span class="g-full" hidden><span class="g-d">1 November 2026</span><span class="g-b">Chellam Srinivasan’s family presents the bride with a traditional nine-yard wedding sari. More than a gift, it is a gesture of acceptance and affection — welcoming Varsha into her new family and preparing her for the most sacred part of the ceremony.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-08.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; VIII</span>
+        <span class="g-tt">Kanya Pratigrahanam</span>
+        <span class="g-ts">Kanyadanam — Entrusting with Love</span>
+        <span class="g-full" hidden><span class="g-d">1 November 2026</span><span class="g-b">Varsha’s parents formally entrust their daughter to Chellam Srinivasan, offering their love, faith, and blessings as the couple begin a new chapter of life together.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-09.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; IX</span>
+        <span class="g-tt">The Bride’s Return</span>
+        <span class="g-ts">Adorned Anew</span>
+        <span class="g-full" hidden><span class="g-d">1 November 2026</span><span class="g-b">Varsha returns to the wedding mandapam wearing the sari gifted by Chellam Srinivasan’s family. This change of attire marks her passage into the next stage of the wedding, and beautifully symbolises the joining of the two families.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-10.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; X</span>
+        <span class="g-tt">Mangalya Dharanam &amp; Panigrahanam</span>
+        <span class="g-ts">Bound by Sacred Promises</span>
+        <span class="g-full" hidden><span class="g-d">1 November 2026</span><span class="g-b">At the auspicious moment, Chellam Srinivasan ties the mangalyam — the sacred wedding necklace — around Varsha’s neck, marking their union. He then takes her hand in Panigrahanam, a gesture that signifies their promise to walk through life together, sharing both responsibilities and joys.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-11.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; XI</span>
+        <span class="g-tt">Metti</span>
+        <span class="g-ts">Stepping into Married Life</span>
+        <span class="g-full" hidden><span class="g-d">1 November 2026</span><span class="g-b">Chellam Srinivasan places silver toe rings on Varsha’s feet. Traditionally worn by married women, these toe rings symbolise her new role, and are accompanied by blessings for a happy, prosperous, and harmonious life.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-12.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; XII</span>
+        <span class="g-tt">Sapthapadi</span>
+        <span class="g-ts">Seven Steps, Seven Promises</span>
+        <span class="g-full" hidden><span class="g-d">1 November 2026</span><span class="g-b">The couple take seven sacred steps together, each representing a vow for their life ahead — nourishment, strength, prosperity, happiness, family, harmony, and lifelong friendship. These shared promises form the very heart of the marriage and its enduring foundation.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-13.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; XIII</span>
+        <span class="g-tt">Arundati Darshanam</span>
+        <span class="g-ts">A Guiding Star</span>
+        <span class="g-full" hidden><span class="g-d">1 November 2026</span><span class="g-b">The newlyweds are shown the star Arundati and her husband Vasishta, revered in Hindu tradition as the ideal married couple. Their enduring partnership is a reminder that the strongest marriages are built on mutual respect, trust, and companionship.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-14.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; XIV</span>
+        <span class="g-tt">Aaseervadham</span>
+        <span class="g-ts">Blessings from the Heart</span>
+        <span class="g-full" hidden><span class="g-d">1 November 2026</span><span class="g-b">Family and friends gather to offer their blessings to the couple. This beautiful tradition reflects the belief that a marriage flourishes when it is nurtured by the love, goodwill, and support of those who surround it.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-15.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; XV</span>
+        <span class="g-tt">Vilayadal</span>
+        <span class="g-ts">A Moment of Play</span>
+        <span class="g-full" hidden><span class="g-d">1 November 2026</span><span class="g-b">After the solemnity of the wedding rites comes laughter. Through a series of playful games, the couple relax, tease one another, and begin discovering the rhythm of their partnership. It is a joyful reminder that friendship and fun matter as much in marriage as love and commitment.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-16.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; XVI</span>
+        <span class="g-tt">Grihapravesham</span>
+        <span class="g-ts">Beginning a New Chapter</span>
+        <span class="g-full" hidden><span class="g-d">1 November 2026</span><span class="g-b">Varsha is formally welcomed into her husband’s home and family. This ceremony marks the start of their shared life together, and invokes blessings for prosperity, happiness, and abundance in their new household.</span></span>
+      </button>
+      <button class="g-tile" type="button" data-rv aria-haspopup="dialog">
+        <span class="g-th"><img src="images/guide-17.webp" alt="" width="1024" height="1024" loading="lazy"></span>
+        <span class="g-no">Ceremony &middot; XVII</span>
+        <span class="g-tt">Mangalahaarathi</span>
+        <span class="g-ts">A Final Blessing</span>
+        <span class="g-full" hidden><span class="g-d">1 November 2026</span><span class="g-b">As the celebrations draw to a close, Varsha &amp; Chellam Srinivasan receive a final blessing through the offering of light. Surrounded by family and friends, they begin their married life together with prayers for a future filled with love, harmony, laughter, and lasting companionship.</span></span>
+      </button>
+    </div>
+    <div class="g-modal" id="gModal" role="dialog" aria-modal="true" aria-label="Ceremony" hidden>
+      <div class="g-card">
+        <button class="g-x" type="button" aria-label="Close">&times;</button>
+        <div class="g-mpic"><img id="gImg" src="" alt=""></div>
+        <div class="g-txt"><p class="g-no" id="gNo"></p><h3 id="gT"></h3><p class="g-sb" id="gSb"></p><p class="g-dt" id="gDt"></p><p class="g-bd" id="gBd"></p></div>
+        <div class="g-nav"><button type="button" id="gPrev">&larr; Previous</button><span id="gCount"></span><button type="button" id="gNext">Next &rarr;</button></div>
+      </div>
+    </div>
+    <p class="g-fin" data-rv>With love and gratitude &mdash; thank you for celebrating with us.<br><span class="g-kick">Varsha &amp; Chellam Srinivasan</span></p>
   </div>
 </section>
 
@@ -2224,6 +2403,25 @@ setLang('en');
 })();
 })();
 
+/* ceremony guide: tiles open a popup with the full text */
+(function(){
+  const tiles=[...document.querySelectorAll('.g-tile')], m=document.getElementById('gModal'); if(!tiles.length||!m) return;
+  const q=id=>document.getElementById(id); let cur=0, opener=null;
+  function show(i){
+    cur=(i+tiles.length)%tiles.length; const t=tiles[cur];
+    q('gImg').src=t.querySelector('img').src; q('gImg').alt=t.querySelector('.g-tt').textContent;
+    q('gNo').innerHTML=t.querySelector('.g-no').innerHTML; q('gT').innerHTML=t.querySelector('.g-tt').innerHTML; q('gSb').innerHTML=t.querySelector('.g-ts').innerHTML;
+    q('gDt').innerHTML=t.querySelector('.g-d').innerHTML; q('gBd').innerHTML=t.querySelector('.g-b').innerHTML;
+    q('gCount').textContent=(cur+1)+' / '+tiles.length; m.querySelector('.g-card').scrollTop=0;
+  }
+  function open(i){ opener=tiles[i]; show(i); m.hidden=false; document.body.style.overflow='hidden'; m.querySelector('.g-x').focus(); }
+  function close(){ m.hidden=true; document.body.style.overflow=''; if(opener) opener.focus(); }
+  tiles.forEach((t,i)=>t.addEventListener('click',()=>open(i)));
+  q('gPrev').addEventListener('click',()=>show(cur-1)); q('gNext').addEventListener('click',()=>show(cur+1));
+  m.querySelector('.g-x').addEventListener('click',close);
+  m.addEventListener('click',e=>{ if(e.target===m) close(); });
+  document.addEventListener('keydown',e=>{ if(m.hidden) return; if(e.key==='Escape') close(); else if(e.key==='ArrowLeft') show(cur-1); else if(e.key==='ArrowRight') show(cur+1); });
+})();
 </script>
 </body>
 </html>
